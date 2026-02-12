@@ -27,15 +27,15 @@ const About: React.FC = () => {
           <div className="relative animate-in zoom-in duration-1000">
             <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1513519245088-0e12902e35ca?q=80&w=1200&auto=format&fit=crop"
+                src="images/about.jpg"
                 alt="Our workshop"
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="absolute -bottom-8 -right-8 glass p-8 rounded-2xl hidden md:block">
+            {/* <div className="absolute -bottom-8 -right-8 glass p-8 rounded-2xl hidden md:block">
               <h4 className="font-serif font-bold text-xl mb-2">Quality First</h4>
               <p className="text-sm text-muted-foreground">Every file goes through a 12-point quality check.</p>
-            </div>
+            </div> */}
           </div>
         </div>
 

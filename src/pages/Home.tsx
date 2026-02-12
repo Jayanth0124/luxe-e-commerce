@@ -15,20 +15,20 @@ const Home: React.FC = () => {
   // Mock Testimonials Data
   const testimonials = [
     {
-      name: "Sophia Roberts",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop",
+      name: "Jayanth Chowdary",
+      image: "images/t1.png",
       rating: 5,
       content: "The quality of these files is unparalleled. They brought a sense of organized luxury to my boutique office."
     },
     {
-      name: "James Chen",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop",
+      name: "Akshar Ram",
+      image: "images/t2.jpeg",
       rating: 5,
       content: "I've tried many suppliers, but Caramel Luxe stands out with their designer aesthetics and durability."
     },
     {
-      name: "Elena Rodriguez",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&auto=format&fit=crop",
+      name: "Eswar",
+      image: "images/t3.jpeg",
       rating: 5,
       content: "The Divine Serenity collection is beautiful. It's more than just a file; it's a piece of art."
     }

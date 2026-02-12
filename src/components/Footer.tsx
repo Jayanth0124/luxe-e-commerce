@@ -27,7 +27,7 @@ const Footer: React.FC = () => {
                 Premium file manufacturing dedicated to elegance and organization.
               </p>
             </div>
-            <div className="flex gap-4">
+            {/* <div className="flex gap-4">
               {[Instagram, Facebook, Twitter].map((Icon, i) => (
                 <a
                   key={i}
@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
                   <Icon size={18} />
                 </a>
               ))}
-            </div>
+            </div> */}
           </div>
 
           {/* Quick Links */}
