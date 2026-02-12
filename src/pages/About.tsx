@@ -10,8 +10,7 @@ const About: React.FC = () => {
           <div className="space-y-8 animate-in slide-in-from-left-8 duration-1000">
             <h1 className="text-5xl lg:text-7xl font-serif font-bold">Crafting Order with <span className="text-primary italic">Grace</span></h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              Founded in 2015, Caramel Luxe began with a simple vision: to transform office supplies into designer assets. 
-              We believe that the tools we use to organize our lives should be as beautiful as the ideas they hold.
+              We believe that the tools used to organize documents should reflect professionalism, reliability, and attention to detail. At Sree Files, every product is crafted to meet modern business needs while maintaining a refined and premium finish.
             </p>
             <div className="grid grid-cols-2 gap-8">
               <div>
