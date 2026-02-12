@@ -1,76 +1,82 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@100..900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 30 20% 98%;
-    --foreground: 0 0% 17%;
-    
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 17%;
-    
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 17%;
-    
-    --primary: 32 52% 65%; /* #D2A679 Caramel */
-    --primary-foreground: 0 0% 100%;
-    
-    --secondary: 30 30% 94%; /* Soft Beige */
-    --secondary-foreground: 32 52% 35%;
-    
-    --muted: 30 20% 90%;
-    --muted-foreground: 0 0% 45%;
-    
-    --accent: 45 40% 90%;
-    --accent-foreground: 32 52% 25%;
-    
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 32 20% 85%;
-    --input: 32 20% 85%;
-    --ring: 32 52% 65%;
-    
-    --radius: 0.75rem;
-
-    --font-sans: 'Inter', sans-serif;
-    --font-serif: 'Playfair Display', serif;
-  }
-
-  .dark {
-    --background: 30 15% 10%;
-    --foreground: 0 0% 98%;
-    --card: 30 15% 12%;
-    --card-foreground: 0 0% 98%;
-    --popover: 30 15% 12%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 32 52% 65%;
-    --primary-foreground: 0 0% 10%;
-    --secondary: 30 15% 18%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 30 15% 18%;
-    --muted-foreground: 0 0% 65%;
-    --accent: 30 15% 18%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 30 15% 20%;
-    --input: 30 15% 20%;
-    --ring: 32 52% 65%;
-  }
+/* Add your custom font here */
+@font-face {
+  font-family: 'YoungMother';
+  src: url('/YoungMother.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 20 14.3% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 14.3% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14.3% 4.1%;
+    --primary: 30 50% 65%; /* Caramel Gold #D2A679 */
+    --primary-foreground: 60 9.1% 97.8%;
+    --secondary: 60 4.8% 95.9%;
+    --secondary-foreground: 24 9.8% 10%;
+    --muted: 60 4.8% 95.9%;
+    --muted-foreground: 25 5.3% 44.7%;
+    --accent: 60 4.8% 95.9%;
+    --accent-foreground: 24 9.8% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 20 5.9% 90%;
+    --input: 20 5.9% 90%;
+    --ring: 30 50% 65%; /* Matches primary */
+    --radius: 0.75rem;
+  }
+ 
+  .dark {
+    --background: 20 14.3% 4.1%;
+    --foreground: 60 9.1% 97.8%;
+    /* ... (rest of dark mode vars if needed) ... */
+  }
+}
+ 
 @layer base {
   * {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-serif;
+  
+  /* Smooth Scroll Behavior */
+  html {
+    scroll-behavior: smooth;
   }
+
+  /* Custom Scrollbar Styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #e5e7eb;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #d1d5db;
+  }
+}
+
+/* Utility to hide scrollbar but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
