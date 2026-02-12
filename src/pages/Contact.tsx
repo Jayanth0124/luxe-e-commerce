@@ -5,21 +5,52 @@ import { motion } from 'framer-motion';
 
 const Contact: React.FC = () => {
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
+  
+  // State for Form Fields
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
 
-  // WhatsApp Order Number (Kept as requested for Orders)
-  const whatsAppNumber = "916309113898"; 
-  // General Contact Number (New)
-  const contactNumber = "+91 9490113370";
+  // Contact Numbers
+  const supportWhatsApp = "916309113898"; // For Orders/Support
+  const generalContact = "+91 94901 13370"; // Display only
 
-  const handleWhatsAppRedirect = () => {
-    window.open(`https://wa.me/${whatsAppNumber}`, '_blank');
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleWhatsAppRedirect = () => {
+    window.open(`https://wa.me/${supportWhatsApp}`, '_blank');
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setFormStatus('sending');
-    // Simulate sending
-    setTimeout(() => setFormStatus('sent'), 1500);
+    
+    // 1. Format the message
+    const text = `
+*New Website Inquiry* 📩
+-----------------------
+*Name:* ${formData.name}
+*Email:* ${formData.email}
+*Subject:* ${formData.subject}
+-----------------------
+*Message:*
+${formData.message}
+    `.trim();
+
+    // 2. Encode URL
+    const url = `https://wa.me/${supportWhatsApp}?text=${encodeURIComponent(text)}`;
+    
+    // 3. Open WhatsApp IMMEDIATELY (No timeout, to avoid popup blockers)
+    window.open(url, '_blank');
+
+    // 4. Update UI State
+    setFormStatus('sent');
+    setFormData({ name: '', email: '', subject: '', message: '' }); // Reset form
   };
 
   const revealVar = {
@@ -59,7 +90,7 @@ const Contact: React.FC = () => {
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { icon: Phone, title: "Call Us", text: contactNumber, sub: "General Inquiry" },
+                { icon: Phone, title: "Call Us", text: generalContact, sub: "General Inquiry" },
                 { icon: MessageCircle, title: "WhatsApp", text: "+91 63091 13898", sub: "Order Support" },
                 { icon: MapPin, title: "Visit Us", text: "Vijayawada, 520012", sub: "Bhavanipuram-Kabela Rd" },
                 { icon: Mail, title: "Email", text: "hello@sreefiles.com", sub: "Response < 24h" },
@@ -89,6 +120,19 @@ const Contact: React.FC = () => {
                     S No 5/6, Bhavanipuram-Kabela Road,<br/>
                     RR Nagar, Vijayawada, 520012
                 </p>
+            </div>
+
+            {/* Google Map Embed */}
+            <div className="w-full h-64 rounded-2xl overflow-hidden border border-border/50 shadow-sm">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3825.2929315807665!2d80.6030!3d16.5130!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTbCsDMwJzQ2LjgiTiA4MMKwMzYnMTAuOCJF!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin"
+                    width="100%" 
+                    height="100%" 
+                    style={{ border: 0 }} 
+                    allowFullScreen={true} 
+                    loading="lazy" 
+                    referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
             </div>
 
             {/* Premium WhatsApp CTA Card */}
@@ -129,35 +173,71 @@ const Contact: React.FC = () => {
                   <CheckCircle2 size={40} />
                 </motion.div>
                 <h3 className="text-2xl font-serif font-bold">Message Sent!</h3>
-                <p className="text-muted-foreground">We'll be in touch shortly.</p>
+                <p className="text-muted-foreground">WhatsApp should have opened with your message.</p>
                 <Button variant="ghost" onClick={() => setFormStatus('idle')}>Send Another</Button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleFormSubmit} className="space-y-6">
                 <div className="space-y-2">
                   <h3 className="text-2xl font-serif font-bold">Send us a message</h3>
-                  <p className="text-muted-foreground text-sm">Fill out the form below and we'll get back to you.</p>
+                  <p className="text-muted-foreground text-sm">Fill out the form below and we'll get back to you via WhatsApp.</p>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Name</label>
-                    <input required className="w-full bg-secondary/20 border-b-2 border-transparent focus:border-primary p-3 outline-none transition-colors" placeholder="Sree Manikanta" />
+                    <input 
+                        required 
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        className="w-full bg-secondary/20 border-b-2 border-transparent focus:border-primary p-3 outline-none transition-colors" 
+                        placeholder="John Doe" 
+                    />
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Email</label>
-                    <input required type="email" className="w-full bg-secondary/20 border-b-2 border-transparent focus:border-primary p-3 outline-none transition-colors" placeholder="sree@files.com" />
+                    <input 
+                        required 
+                        type="email" 
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className="w-full bg-secondary/20 border-b-2 border-transparent focus:border-primary p-3 outline-none transition-colors" 
+                        placeholder="john@example.com" 
+                    />
                   </div>
                 </div>
+
+                <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Subject</label>
+                    <input 
+                        required 
+                        type="text" 
+                        name="subject"
+                        value={formData.subject}
+                        onChange={handleInputChange}
+                        className="w-full bg-secondary/20 border-b-2 border-transparent focus:border-primary p-3 outline-none transition-colors" 
+                        placeholder="Order Inquiry / Custom Design" 
+                    />
+                  </div>
                 
                 <div className="space-y-2">
                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Message</label>
-                  <textarea required rows={4} className="w-full bg-secondary/20 border-b-2 border-transparent focus:border-primary p-3 outline-none resize-none transition-colors" placeholder="How can we help?" />
+                  <textarea 
+                    required 
+                    rows={4} 
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    className="w-full bg-secondary/20 border-b-2 border-transparent focus:border-primary p-3 outline-none resize-none transition-colors" 
+                    placeholder="How can we help?" 
+                  />
                 </div>
 
                 <Button type="submit" disabled={formStatus === 'sending'} className="w-full h-12 text-lg rounded-xl">
-                  {formStatus === 'sending' ? 'Sending...' : (
-                    <>Send Message <ArrowRight className="ml-2 h-4 w-4" /></>
+                  {formStatus === 'sending' ? 'Opening WhatsApp...' : (
+                    <>Send on WhatsApp <ArrowRight className="ml-2 h-4 w-4" /></>
                   )}
                 </Button>
               </form>
