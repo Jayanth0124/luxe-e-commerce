@@ -76,7 +76,7 @@ const Home: React.FC = () => {
           
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.2 }} className="relative">
             <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
-              <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1200&auto=format&fit=crop" alt="Luxury workspace" className="w-full h-full object-cover" />
+              <img src="images/hero.jpg" alt="Luxury workspace" className="w-full h-full object-cover" />
             </div>
             {/* Floating Rating Badge */}
             <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 1 }} className="absolute -bottom-8 -left-8 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl max-w-xs border border-white/20 hidden md:block">

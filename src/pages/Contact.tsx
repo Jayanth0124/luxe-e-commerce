@@ -6,11 +6,13 @@ import { motion } from 'framer-motion';
 const Contact: React.FC = () => {
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
 
-  // YOUR NEW WHATSAPP NUMBER
-  const phoneNumber = "916309113898"; 
+  // WhatsApp Order Number (Kept as requested for Orders)
+  const whatsAppNumber = "916309113898"; 
+  // General Contact Number (New)
+  const contactNumber = "+91 9490113370";
 
   const handleWhatsAppRedirect = () => {
-    window.open(`https://wa.me/${phoneNumber}`, '_blank');
+    window.open(`https://wa.me/${whatsAppNumber}`, '_blank');
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -40,7 +42,8 @@ const Contact: React.FC = () => {
             Get in <span className="text-primary italic">Touch</span>
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto text-xl font-light">
-            Have a custom requirement? Our team is ready to craft your perfect solution.
+            <strong>Sree Manikanta</strong> — Trusted since 2010. <br/>
+            Founded by <strong>P. Naveen</strong>.
           </p>
         </motion.div>
 
@@ -56,10 +59,10 @@ const Contact: React.FC = () => {
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { icon: Phone, title: "Phone", text: "+91 63091 13898", sub: "Mon-Sat, 9am-6pm" },
+                { icon: Phone, title: "Call Us", text: contactNumber, sub: "General Inquiry" },
+                { icon: MessageCircle, title: "WhatsApp", text: "+91 63091 13898", sub: "Order Support" },
+                { icon: MapPin, title: "Visit Us", text: "Vijayawada, 520012", sub: "Bhavanipuram-Kabela Rd" },
                 { icon: Mail, title: "Email", text: "hello@sreefiles.com", sub: "Response < 24h" },
-                { icon: MapPin, title: "Studio", text: "Vijayawada, India", sub: "By Appointment" },
-                { icon: MessageCircle, title: "WhatsApp", text: "+91 63091 13898", sub: "Instant Chat" }
               ].map((item, i) => (
                 <motion.div 
                   key={i}
@@ -76,7 +79,19 @@ const Contact: React.FC = () => {
               ))}
             </div>
 
-            {/* Premium WhatsApp CTA Card - FIXED CLICK ACTION */}
+            {/* Address Card */}
+            <div className="p-6 rounded-2xl bg-secondary/20 border border-border/50">
+                <h4 className="font-bold font-serif text-lg mb-2 flex items-center gap-2">
+                    <MapPin size={18} className="text-primary" /> 
+                    Head Office
+                </h4>
+                <p className="text-muted-foreground leading-relaxed">
+                    S No 5/6, Bhavanipuram-Kabela Road,<br/>
+                    RR Nagar, Vijayawada, 520012
+                </p>
+            </div>
+
+            {/* Premium WhatsApp CTA Card */}
             <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-primary/80 p-10 text-white shadow-2xl shadow-primary/30">
               <div className="absolute -right-8 -bottom-8 opacity-20 rotate-12">
                 <MessageCircle size={180} />
@@ -84,7 +99,7 @@ const Contact: React.FC = () => {
               <div className="relative z-10">
                 <h3 className="text-2xl font-serif font-bold mb-2">Need a quick quote?</h3>
                 <p className="text-white/90 mb-8 max-w-sm">
-                  Chat directly with our design consultants on WhatsApp for instant pricing.
+                  Chat directly with <strong>P. Naveen's</strong> team on WhatsApp for instant pricing.
                 </p>
                 <Button 
                   onClick={handleWhatsAppRedirect}
@@ -127,11 +142,11 @@ const Contact: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Name</label>
-                    <input required className="w-full bg-secondary/20 border-b-2 border-transparent focus:border-primary p-3 outline-none transition-colors" placeholder="John Doe" />
+                    <input required className="w-full bg-secondary/20 border-b-2 border-transparent focus:border-primary p-3 outline-none transition-colors" placeholder="Sree Manikanta" />
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Email</label>
-                    <input required type="email" className="w-full bg-secondary/20 border-b-2 border-transparent focus:border-primary p-3 outline-none transition-colors" placeholder="john@example.com" />
+                    <input required type="email" className="w-full bg-secondary/20 border-b-2 border-transparent focus:border-primary p-3 outline-none transition-colors" placeholder="sree@files.com" />
                   </div>
                 </div>
                 
