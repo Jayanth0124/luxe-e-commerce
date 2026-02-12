@@ -1,115 +1,153 @@
-import React from 'react';
-import { Button } from '../components/Button';
-import { Phone, Mail, MapPin, MessageCircle, Send } from 'lucide-react';
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Phone, Mail, MapPin, MessageCircle, Send, CheckCircle2, ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const Contact: React.FC = () => {
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
+
+  // YOUR NEW WHATSAPP NUMBER
+  const phoneNumber = "916309113898"; 
+
+  const handleWhatsAppRedirect = () => {
+    window.open(`https://wa.me/${phoneNumber}`, '_blank');
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormStatus('sending');
+    // Simulate sending
+    setTimeout(() => setFormStatus('sent'), 1500);
+  };
+
+  const revealVar = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
+  };
+
   return (
-    <div className="pt-32 pb-24">
+    <div className="pt-32 pb-24 bg-[#FDFBF9] overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16 space-y-4">
-          <h1 className="text-5xl lg:text-7xl font-serif font-bold">Get in <span className="text-primary italic">Touch</span></h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Have a custom requirement or just want to say hello? Our team is always ready 
-            to assist you with your premium file needs.
+        
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={revealVar}
+          className="text-center mb-20"
+        >
+          <h1 className="text-5xl lg:text-7xl font-serif font-bold text-foreground mb-6">
+            Get in <span className="text-primary italic">Touch</span>
+          </h1>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-xl font-light">
+            Have a custom requirement? Our team is ready to craft your perfect solution.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          {/* Contact Info */}
-          <div className="space-y-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          
+          {/* Left Column: Contact Details */}
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={revealVar}
+            className="space-y-8"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { icon: Phone, title: "Phone", content: "+91 98765 43210", sub: "Mon-Sat, 9am-6pm" },
-                { icon: Mail, title: "Email", content: "hello@caramelluxe.com", sub: "Response in 24h" },
-                { icon: MapPin, title: "Location", content: "Mumbai, India", sub: "Craft District, 400001" },
-                { icon: MessageCircle, title: "WhatsApp", content: "+91 98765 43210", sub: "Direct Order Support" }
+                { icon: Phone, title: "Phone", text: "+91 63091 13898", sub: "Mon-Sat, 9am-6pm" },
+                { icon: Mail, title: "Email", text: "hello@sreefiles.com", sub: "Response < 24h" },
+                { icon: MapPin, title: "Studio", text: "Vijayawada, India", sub: "By Appointment" },
+                { icon: MessageCircle, title: "WhatsApp", text: "+91 63091 13898", sub: "Instant Chat" }
               ].map((item, i) => (
-                <div key={i} className="p-6 rounded-2xl bg-secondary/30 border border-border/40 hover:border-primary/40 transition-all duration-300">
-                  <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-primary mb-4 shadow-sm">
+                <motion.div 
+                  key={i}
+                  whileHover={{ y: -5 }}
+                  className="p-6 rounded-2xl bg-white border border-border/50 shadow-sm hover:shadow-xl hover:border-primary/20 transition-all duration-300"
+                >
+                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-4">
                     <item.icon size={20} />
                   </div>
-                  <h4 className="font-bold font-serif text-lg mb-1">{item.title}</h4>
-                  <p className="font-medium text-foreground">{item.content}</p>
-                  <p className="text-xs text-muted-foreground mt-2">{item.sub}</p>
-                </div>
+                  <h4 className="font-bold font-serif text-lg">{item.title}</h4>
+                  <p className="text-foreground/80 font-medium">{item.text}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{item.sub}</p>
+                </motion.div>
               ))}
             </div>
 
-            {/* WhatsApp CTA */}
-            <div className="p-8 rounded-3xl bg-primary text-white space-y-6 relative overflow-hidden">
-              <div className="absolute -right-10 -bottom-10 opacity-20 rotate-12">
-                <MessageCircle size={200} />
+            {/* Premium WhatsApp CTA Card - FIXED CLICK ACTION */}
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-primary/80 p-10 text-white shadow-2xl shadow-primary/30">
+              <div className="absolute -right-8 -bottom-8 opacity-20 rotate-12">
+                <MessageCircle size={180} />
               </div>
               <div className="relative z-10">
-                <h3 className="text-2xl font-serif font-bold mb-2">Need a faster response?</h3>
-                <p className="text-white/80 mb-6 max-w-sm">
-                  Chat with our luxury consultants directly on WhatsApp for instant assistance and personalized quotes.
+                <h3 className="text-2xl font-serif font-bold mb-2">Need a quick quote?</h3>
+                <p className="text-white/90 mb-8 max-w-sm">
+                  Chat directly with our design consultants on WhatsApp for instant pricing.
                 </p>
-                <Button variant="secondary" className="bg-white text-primary hover:bg-secondary w-full sm:w-auto gap-2">
-                  <MessageCircle size={20} />
-                  Chat on WhatsApp
+                <Button 
+                  onClick={handleWhatsAppRedirect}
+                  variant="secondary" 
+                  className="bg-white text-primary hover:bg-white/90 border-0 cursor-pointer"
+                >
+                  <MessageCircle className="mr-2 h-4 w-4" /> Open WhatsApp
                 </Button>
               </div>
             </div>
-            
-            {/* Map Placeholder */}
-            <div className="aspect-video w-full rounded-3xl overflow-hidden grayscale contrast-125 opacity-80 border border-border">
-              <iframe
-                title="Google Map Placeholder"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d120641.47275811365!2d72.76672323719124!3d19.105574381895697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
-          </div>
+          </motion.div>
 
-          {/* Contact Form */}
-          <div className="bg-white p-10 lg:p-12 rounded-3xl border border-border/40 caramel-shadow">
-            <h3 className="text-3xl font-serif font-bold mb-8 text-center">Send us a Message</h3>
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Right Column: Interactive Form */}
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="bg-white p-8 md:p-12 rounded-[2rem] border border-border/50 shadow-xl shadow-gray-200/50"
+          >
+            {formStatus === 'sent' ? (
+              <div className="py-20 text-center space-y-4">
+                <motion.div 
+                  initial={{ scale: 0 }} animate={{ scale: 1 }}
+                  className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center text-green-600 mx-auto"
+                >
+                  <CheckCircle2 size={40} />
+                </motion.div>
+                <h3 className="text-2xl font-serif font-bold">Message Sent!</h3>
+                <p className="text-muted-foreground">We'll be in touch shortly.</p>
+                <Button variant="ghost" onClick={() => setFormStatus('idle')}>Send Another</Button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-muted-foreground ml-1">Full Name</label>
-                  <input
-                    type="text"
-                    placeholder="Enter your name"
-                    className="w-full px-5 py-4 rounded-2xl bg-secondary/30 border border-border/40 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                  />
+                  <h3 className="text-2xl font-serif font-bold">Send us a message</h3>
+                  <p className="text-muted-foreground text-sm">Fill out the form below and we'll get back to you.</p>
                 </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Name</label>
+                    <input required className="w-full bg-secondary/20 border-b-2 border-transparent focus:border-primary p-3 outline-none transition-colors" placeholder="John Doe" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Email</label>
+                    <input required type="email" className="w-full bg-secondary/20 border-b-2 border-transparent focus:border-primary p-3 outline-none transition-colors" placeholder="john@example.com" />
+                  </div>
+                </div>
+                
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-muted-foreground ml-1">Email Address</label>
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    className="w-full px-5 py-4 rounded-2xl bg-secondary/30 border border-border/40 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                  />
+                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Message</label>
+                  <textarea required rows={4} className="w-full bg-secondary/20 border-b-2 border-transparent focus:border-primary p-3 outline-none resize-none transition-colors" placeholder="How can we help?" />
                 </div>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-muted-foreground ml-1">Subject</label>
-                <input
-                  type="text"
-                  placeholder="What is this about?"
-                  className="w-full px-5 py-4 rounded-2xl bg-secondary/30 border border-border/40 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-muted-foreground ml-1">Message</label>
-                <textarea
-                  rows={5}
-                  placeholder="How can we help you?"
-                  className="w-full px-5 py-4 rounded-2xl bg-secondary/30 border border-border/40 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
-                />
-              </div>
-              <Button className="w-full gap-2 py-5 text-lg">
-                <Send size={20} />
-                Send Message
-              </Button>
-            </form>
-          </div>
+
+                <Button type="submit" disabled={formStatus === 'sending'} className="w-full h-12 text-lg rounded-xl">
+                  {formStatus === 'sending' ? 'Sending...' : (
+                    <>Send Message <ArrowRight className="ml-2 h-4 w-4" /></>
+                  )}
+                </Button>
+              </form>
+            )}
+          </motion.div>
         </div>
       </div>
     </div>

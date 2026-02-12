@@ -1,100 +1,76 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Instagram, Facebook, Twitter, Mail, MapPin, Phone } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { Facebook, Instagram, Twitter, Mail, MapPin, Phone } from "lucide-react";
 
-export const Footer: React.FC = () => {
+const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="bg-white border-t border-border/40 relative overflow-hidden">
-      {/* Caramel Gradient Divider */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-40" />
-      
-      <div className="container mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* Brand Info */}
-          <div className="space-y-6">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary rounded flex items-center justify-center text-white font-serif text-xl font-bold">
-                C
-              </div>
-              <span className="font-serif text-xl font-bold tracking-tight">
-                Caramel<span className="text-primary">Luxe</span>
-              </span>
-            </Link>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              Premium file manufacturing business dedicated to elegance and organization. 
-              Elevate your workspace with our designer collection.
+    <footer className="bg-secondary/30 border-t border-border mt-auto">
+      <div className="container mx-auto px-4 py-12 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+          
+          {/* Brand */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold">Sree<span className="text-primary">.files</span></h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Premium digital assets for creators, designers, and developers. 
+              Elevate your projects with our curated collection.
             </p>
-            <div className="flex gap-4">
-              {[Instagram, Facebook, Twitter].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
-                >
-                  <Icon size={18} />
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h4 className="font-serif text-lg font-bold mb-6">Quick Links</h4>
-            <ul className="space-y-4">
-              {['Home', 'Shop', 'About', 'Contact'].map((item) => (
-                <li key={item}>
-                  <Link
-                    to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
-                    className="text-muted-foreground text-sm hover:text-primary transition-colors"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              ))}
+          <div className="space-y-4">
+            <h4 className="font-semibold">Quick Links</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><Link to="/shop" className="hover:text-primary transition-colors">Shop All</Link></li>
+              <li><Link to="/about" className="hover:text-primary transition-colors">About Us</Link></li>
+              <li><Link to="/contact" className="hover:text-primary transition-colors">Contact</Link></li>
+              <li><Link to="/terms" className="hover:text-primary transition-colors">Terms of Service</Link></li>
             </ul>
           </div>
 
-          {/* Information */}
-          <div>
-            <h4 className="font-serif text-lg font-bold mb-6">Information</h4>
-            <ul className="space-y-4">
-              {['Terms & Conditions', 'Privacy Policy', 'Shipping Policy', 'Returns'].map((item) => (
-                <li key={item}>
-                  <Link
-                    to="#"
-                    className="text-muted-foreground text-sm hover:text-primary transition-colors"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div>
-            <h4 className="font-serif text-lg font-bold mb-6">Contact Info</h4>
-            <ul className="space-y-4">
-              <li className="flex gap-3 text-sm text-muted-foreground">
-                <MapPin size={18} className="text-primary shrink-0" />
-                <span>123 Luxury Avenue, Craft District, Mumbai, India</span>
+          {/* Contact */}
+          <div className="space-y-4">
+            <h4 className="font-semibold">Contact Us</h4>
+            <ul className="space-y-3 text-sm text-muted-foreground">
+              <li className="flex items-center gap-3">
+                <Mail className="w-4 h-4 text-primary" />
+                <span>support@sreefiles.com</span>
               </li>
-              <li className="flex gap-3 text-sm text-muted-foreground">
-                <Phone size={18} className="text-primary shrink-0" />
+              <li className="flex items-center gap-3">
+                <Phone className="w-4 h-4 text-primary" />
                 <span>+91 98765 43210</span>
               </li>
-              <li className="flex gap-3 text-sm text-muted-foreground">
-                <Mail size={18} className="text-primary shrink-0" />
-                <span>hello@caramelluxe.com</span>
+              <li className="flex items-center gap-3">
+                <MapPin className="w-4 h-4 text-primary" />
+                <span>Vijayawada, India</span>
               </li>
             </ul>
+          </div>
+
+          {/* Social */}
+          <div className="space-y-4">
+            <h4 className="font-semibold">Follow Us</h4>
+            <div className="flex gap-4">
+              <a href="#" className="p-2 bg-background rounded-full hover:bg-primary hover:text-white transition-colors">
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a href="#" className="p-2 bg-background rounded-full hover:bg-primary hover:text-white transition-colors">
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a href="#" className="p-2 bg-background rounded-full hover:bg-primary hover:text-white transition-colors">
+                <Facebook className="w-5 h-5" />
+              </a>
+            </div>
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-border/40 text-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} Caramel Luxe. All rights reserved.</p>
+        <div className="mt-12 pt-8 border-t border-border text-center text-sm text-muted-foreground">
+          <p>&copy; {currentYear} Sree Files. All rights reserved.</p>
         </div>
       </div>
     </footer>
   );
 };
+
+export default Footer;

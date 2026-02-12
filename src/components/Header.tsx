@@ -1,20 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { CartDrawer } from './CartDrawer';
-import { Menu, X } from 'lucide-react';
-import { cn } from '../lib/utils';
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { ShoppingBag, Menu, X, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useCart } from "@/context/CartContext";
+import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
 
-export const Header: React.FC = () => {
+const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { cart, setIsCartOpen } = useCart();
   const location = useLocation();
 
+  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Close mobile menu on route change
@@ -22,83 +26,115 @@ export const Header: React.FC = () => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isMobileMenuOpen]);
+
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Shop', path: '/shop' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
+    { name: "Home", path: "/" },
+    { name: "Shop", path: "/shop" },
+    { name: "About", path: "/about" },
+    { name: "Contact", path: "/contact" },
   ];
 
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 w-full z-40 transition-all duration-500',
-        isScrolled ? 'py-4 glass border-b' : 'py-6 bg-transparent'
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
+        isScrolled
+          ? "bg-background/80 backdrop-blur-md border-border/50 py-3"
+          : "bg-transparent border-transparent py-5"
       )}
     >
-      <div className="container mx-auto px-6 flex items-center justify-between">
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white font-serif text-2xl font-bold transition-transform group-hover:rotate-12">
-            C
-          </div>
-          <span className="font-serif text-xl font-bold tracking-tight">
-            Caramel<span className="text-primary">Luxe</span>
-          </span>
-        </Link>
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="text-2xl font-bold tracking-tight z-50">
+            Sree<span className="text-primary">.files</span>
+          </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={cn(
-                'relative text-sm font-medium transition-colors hover:text-primary py-1',
-                location.pathname === link.path ? 'text-primary' : 'text-foreground/80'
-              )}
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={cn(
+                  "text-sm font-medium transition-colors hover:text-primary",
+                  location.pathname === link.path
+                    ? "text-primary"
+                    : "text-muted-foreground"
+                )}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Actions */}
+          <div className="flex items-center gap-4 z-50">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative"
+              onClick={() => setIsCartOpen(true)}
             >
-              {link.name}
-              {location.pathname === link.path && (
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary rounded-full animate-in slide-in-from-left-2" />
+              <ShoppingBag className="w-5 h-5" />
+              {cart.length > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white animate-in zoom-in">
+                  {cart.length}
+                </span>
               )}
-            </Link>
-          ))}
-        </nav>
+            </Button>
 
-        {/* Actions */}
-        <div className="flex items-center gap-4">
-          <CartDrawer />
-          
-          <button
-            className="md:hidden p-2 hover:text-primary transition-colors"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            {/* Mobile Menu Toggle */}
+            <button
+              className="md:hidden p-2"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      <div className={cn(
-        'fixed inset-0 top-[72px] bg-background/95 backdrop-blur-lg z-30 transition-all duration-500 md:hidden',
-        isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
-      )}>
-        <nav className="flex flex-col items-center justify-center h-full gap-8 p-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={cn(
-                'text-2xl font-serif transition-colors',
-                location.pathname === link.path ? 'text-primary underline' : 'text-foreground'
-              )}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </nav>
-      </div>
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 top-16 bg-background z-40 md:hidden flex flex-col p-6 space-y-6"
+          >
+            {navLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className="text-2xl font-medium text-foreground hover:text-primary transition-colors"
+              >
+                {link.name}
+              </Link>
+            ))}
+            <div className="pt-8 border-t border-border">
+              <Button className="w-full" size="lg" onClick={() => setIsCartOpen(true)}>
+                View Cart ({cart.length})
+              </Button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
+
+export default Header;

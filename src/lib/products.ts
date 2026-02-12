@@ -1,5 +1,14 @@
-import { Product } from '../context/CartContext';
+// 1. Define the interface HERE to break the circular dependency
+export interface Product {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  category: string;
+  image: string;
+}
 
+// 2. Your Product Data
 export const products: Product[] = [
   {
     id: 'rel-1',
@@ -59,4 +68,5 @@ export const products: Product[] = [
   }
 ];
 
+// 3. Export Categories
 export const categories = ['All', 'Religious', 'Designer', 'Standard', 'Box File', 'Premium'];

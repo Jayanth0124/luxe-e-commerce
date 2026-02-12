@@ -1,70 +1,58 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { Header } from './components/Header';
-import { Footer } from './components/Footer';
-import { CartProvider } from './context/CartContext';
-import Home from './pages/Home';
-import Shop from './pages/Shop';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Checkout from './pages/Checkout';
-import { Toaster } from 'sonner';
-import { AnimatePresence, motion } from 'framer-motion';
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { CartProvider } from "@/context/CartContext";
 
-// Scroll to top on route change
+// Pages
+import Home from "./pages/Home";
+import Shop from "./pages/Shop";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Checkout from "./pages/Checkout";
+
+// Components
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import CartDrawer from "./components/CartDrawer";
+
+// Utility to scroll to top on route change
 const ScrollToTop = () => {
   const { pathname } = useLocation();
-  React.useEffect(() => {
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
   return null;
 };
 
-const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const App = () => {
   return (
-    <motion.div
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -20 }}
-      transition={{ duration: 0.5, ease: [0.43, 0.13, 0.23, 0.96] }}
-    >
-      {children}
-    </motion.div>
+    <TooltipProvider>
+      <CartProvider>
+        <Toaster position="top-center" richColors />
+        <BrowserRouter>
+          <ScrollToTop />
+          <div className="flex min-h-screen flex-col font-sans selection:bg-primary/20">
+            <Header />
+            <CartDrawer />
+            
+            <main className="flex-1 pt-16"> 
+              {/* pt-16 ensures content doesn't go under fixed header */}
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/shop" element={<Shop />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/checkout" element={<Checkout />} />
+              </Routes>
+            </main>
+
+            <Footer />
+          </div>
+        </BrowserRouter>
+      </CartProvider>
+    </TooltipProvider>
   );
 };
-
-const AppRoutes = () => {
-  const location = useLocation();
-  
-  return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-        <Route path="/shop" element={<PageWrapper><Shop /></PageWrapper>} />
-        <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
-        <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
-        <Route path="/checkout" element={<PageWrapper><Checkout /></PageWrapper>} />
-      </Routes>
-    </AnimatePresence>
-  );
-};
-
-function App() {
-  return (
-    <CartProvider>
-      <Router>
-        <ScrollToTop />
-        <div className="flex flex-col min-h-screen">
-          <Header />
-          <main className="flex-1" data-barba="container">
-            <AppRoutes />
-          </main>
-          <Footer />
-        </div>
-        <Toaster position="bottom-right" richColors />
-      </Router>
-    </CartProvider>
-  );
-}
 
 export default App;

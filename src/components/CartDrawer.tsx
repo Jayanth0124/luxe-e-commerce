@@ -1,119 +1,115 @@
-import React from 'react';
-import { useCart } from '../context/CartContext';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-  SheetFooter,
-} from './ui/sheet';
-import { Button } from './Button';
-import { ShoppingBag, Trash2, Plus, Minus, X } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { useCart } from "@/context/CartContext";
+import { Trash2, Plus, Minus, ShoppingBag, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-export const CartDrawer: React.FC = () => {
-  const { cart, totalItems, totalPrice, removeFromCart, updateQuantity } = useCart();
+const CartDrawer = () => {
+  const { isCartOpen, setIsCartOpen, cart, removeFromCart, updateQuantity, total } = useCart();
   const navigate = useNavigate();
 
+  const handleCheckout = () => {
+    setIsCartOpen(false);
+    navigate("/checkout");
+  };
+
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <button className="relative p-2 hover:text-primary transition-colors">
-          <ShoppingBag size={24} />
-          {totalItems > 0 && (
-            <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center animate-in fade-in zoom-in">
-              {totalItems}
-            </span>
-          )}
-        </button>
-      </SheetTrigger>
-      <SheetContent className="w-full sm:max-w-md flex flex-col p-0">
-        <SheetHeader className="p-6 border-b">
-          <SheetTitle className="text-2xl font-serif">Your Cart</SheetTitle>
+    <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
+      <SheetContent className="flex w-full flex-col sm:max-w-lg">
+        <SheetHeader className="space-y-2.5 pr-6">
+          <SheetTitle className="text-xl font-serif">My Cart ({cart.length})</SheetTitle>
+          {/* This Description fixes the warning */}
+          <SheetDescription>
+            Review your selected items before proceeding to checkout.
+          </SheetDescription>
+          <Separator />
         </SheetHeader>
         
-        <div className="flex-1 overflow-y-auto p-6">
-          {cart.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-center">
-              <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mb-4">
-                <ShoppingBag size={32} className="text-muted-foreground" />
-              </div>
-              <h3 className="text-lg font-medium mb-2">Your cart is empty</h3>
-              <p className="text-muted-foreground mb-8">Looks like you haven't added anything yet.</p>
-              <SheetTrigger asChild>
-                <Button variant="outline">Start Shopping</Button>
-              </SheetTrigger>
-            </div>
-          ) : (
-            <div className="space-y-6">
-              {cart.map((item) => (
-                <div key={item.id} className="flex gap-4 animate-in slide-in-from-right-4 duration-300">
-                  <div className="w-20 h-24 rounded-lg overflow-hidden bg-secondary flex-shrink-0">
-                    <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
-                  </div>
-                  <div className="flex-1 flex flex-col justify-between py-1">
-                    <div>
-                      <div className="flex justify-between items-start mb-1">
-                        <h4 className="font-serif font-semibold">{item.title}</h4>
-                        <button
+        {cart.length > 0 ? (
+          <>
+            <ScrollArea className="flex-1 pr-4 -mr-4">
+              <div className="flex flex-col gap-6 pt-4">
+                {cart.map((item) => (
+                  <div key={item.id} className="flex gap-4">
+                    <div className="h-20 w-20 shrink-0 overflow-hidden rounded-md border bg-muted">
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col justify-between">
+                      <div className="grid gap-1">
+                        <h3 className="font-medium truncate font-serif">{item.title}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          ₹{item.price.toLocaleString()}
+                        </p>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 border rounded-md p-1">
+                          <Button 
+                            variant="ghost" size="icon" className="h-6 w-6" 
+                            onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
+                          >
+                            <Minus className="h-3 w-3" />
+                          </Button>
+                          <span className="text-xs w-4 text-center">{item.quantity}</span>
+                          <Button 
+                            variant="ghost" size="icon" className="h-6 w-6" 
+                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          >
+                            <Plus className="h-3 w-3" />
+                          </Button>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-destructive hover:bg-destructive/10"
                           onClick={() => removeFromCart(item.id)}
-                          className="text-muted-foreground hover:text-destructive transition-colors"
                         >
-                          <Trash2 size={16} />
-                        </button>
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
                       </div>
-                      <p className="text-xs text-muted-foreground mb-2">{item.category}</p>
-                    </div>
-                    
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-3 bg-secondary rounded-full px-2 py-1 scale-90 origin-left">
-                        <button
-                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          className="p-1 hover:text-primary"
-                        >
-                          <Minus size={12} />
-                        </button>
-                        <span className="font-medium text-xs min-w-[1rem] text-center">{item.quantity}</span>
-                        <button
-                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          className="p-1 hover:text-primary"
-                        >
-                          <Plus size={12} />
-                        </button>
-                      </div>
-                      <span className="font-semibold">₹{item.price * item.quantity}</span>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-        
-        {cart.length > 0 && (
-          <SheetFooter className="p-6 border-t bg-secondary/30">
-            <div className="w-full space-y-4">
-              <div className="flex justify-between items-center text-lg font-bold">
-                <span className="font-serif">Total</span>
-                <span className="text-primary">₹{totalPrice}</span>
+                ))}
               </div>
-              <p className="text-xs text-muted-foreground text-center mb-4">
-                Shipping and taxes calculated at checkout.
-              </p>
-              <SheetClose asChild>
-                <Button
-                  onClick={() => navigate('/checkout')}
-                  className="w-full"
-                  size="lg"
-                >
-                  Proceed to Checkout
-                </Button>
-              </SheetClose>
+            </ScrollArea>
+            <div className="space-y-4 pt-6">
+              <Separator />
+              <div className="space-y-1.5 text-sm">
+                <div className="flex justify-between font-bold text-lg font-serif">
+                  <span>Total</span>
+                  <span>₹{total.toLocaleString()}</span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Taxes and shipping calculated at checkout.
+                </p>
+              </div>
+              <Button className="w-full" size="lg" onClick={handleCheckout}>
+                Proceed to Checkout <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
             </div>
-          </SheetFooter>
+          </>
+        ) : (
+          <div className="flex h-full flex-col items-center justify-center space-y-4">
+            <ShoppingBag className="h-16 w-16 text-muted-foreground/50" />
+            <div className="text-center space-y-1">
+              <p className="text-lg font-semibold font-serif">Your cart is empty</p>
+              <p className="text-sm text-muted-foreground">
+                Looks like you haven't added anything yet.
+              </p>
+            </div>
+            <Button variant="outline" onClick={() => setIsCartOpen(false)}>
+              Continue Shopping
+            </Button>
+          </div>
         )}
       </SheetContent>
     </Sheet>
   );
 };
+
+export default CartDrawer;
