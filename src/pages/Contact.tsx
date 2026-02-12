@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Phone, Mail, MapPin, MessageCircle, Send, CheckCircle2, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import SEO from '@/components/SEO'; // <--- SEO Import Added
 
 const Contact: React.FC = () => {
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
@@ -60,6 +61,13 @@ ${formData.message}
 
   return (
     <div className="pt-32 pb-24 bg-[#FDFBF9] overflow-hidden">
+      {/* SEO Configuration Added Here */}
+      <SEO 
+        title="Contact Us" 
+        description="Get in touch with Sree Manikanta Files. Located in Vijayawada. Call us at +91 94901 13370 for orders and inquiries."
+        url="https://sreefiles.netlify.app/contact"
+      />
+
       <div className="container mx-auto px-6">
         
         <motion.div 

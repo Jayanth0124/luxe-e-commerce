@@ -1,58 +1,63 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import { Toaster } from "@/components/ui/sonner";
+import { useEffect } from "react"; // <--- Moved to top
+import { CartProvider } from "./context/CartContext";
+import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { CartProvider } from "@/context/CartContext";
-
-// Pages
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async"; 
+import { AnimatePresence } from "framer-motion";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Checkout from "./pages/Checkout";
 
-// Components
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import CartDrawer from "./components/CartDrawer";
-
-// Utility to scroll to top on route change
+// ScrollToTop component to ensure pages start at top
 const ScrollToTop = () => {
   const { pathname } = useLocation();
+  
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
   return null;
 };
 
-const App = () => {
+const AnimatedRoutes = () => {
+  const location = useLocation();
+  
   return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/checkout" element={<Checkout />} />
+      </Routes>
+    </AnimatePresence>
+  );
+};
+
+const App = () => (
+  <HelmetProvider>
     <TooltipProvider>
+      <Toaster />
       <CartProvider>
-        <Toaster position="top-center" richColors />
         <BrowserRouter>
           <ScrollToTop />
-          <div className="flex min-h-screen flex-col font-sans selection:bg-primary/20">
+          <div className="flex flex-col min-h-screen">
             <Header />
-            <CartDrawer />
-            
-            <main className="flex-1 pt-16"> 
-              {/* pt-16 ensures content doesn't go under fixed header */}
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/shop" element={<Shop />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/checkout" element={<Checkout />} />
-              </Routes>
+            <main className="flex-grow">
+              <AnimatedRoutes />
             </main>
-
             <Footer />
           </div>
         </BrowserRouter>
       </CartProvider>
     </TooltipProvider>
-  );
-};
+  </HelmetProvider>
+);
 
 export default App;

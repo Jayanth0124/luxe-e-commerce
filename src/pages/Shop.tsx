@@ -5,6 +5,7 @@ import { FileCard } from '@/components/FileCard';
 import { products } from '@/lib/products';
 import { Search, SlidersHorizontal, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import SEO from '@/components/SEO'; // <--- Import SEO
 
 const Shop: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -21,6 +22,13 @@ const Shop: React.FC = () => {
 
   return (
     <div className="pt-32 pb-24 min-h-screen bg-[#FDFBF9]">
+      {/* SEO Configuration */}
+      <SEO 
+        title="Shop Premium Files" 
+        description="Browse our exclusive collection of office files, cobra files, and custom folders. Bulk orders available via WhatsApp."
+        url="https://sreefiles.netlify.app/shop"
+      />
+
       <div className="container mx-auto px-6">
         
         {/* Animated Header */}

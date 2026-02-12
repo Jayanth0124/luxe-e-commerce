@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { FileCard } from '@/components/FileCard';
 import { TestimonialCard } from '@/components/TestimonialCard';
 import { products } from '@/lib/products';
+import SEO from '@/components/SEO'; // <--- Import SEO
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -45,6 +46,13 @@ const Home: React.FC = () => {
 
   return (
     <div className="pb-20 overflow-x-hidden">
+      {/* SEO Configuration */}
+      <SEO 
+        title="Home" 
+        description="Sree.files - Premium file manufacturing in Vijayawada. Trusted since 2010. Shop high-quality office files, folders, and custom stationery."
+        url="https://sreefiles.netlify.app/"
+      />
+
       {/* Hero Section - Increased top padding to pt-32 for better spacing */}
       <section className="relative min-h-[90vh] flex items-center pt-32 pb-20 bg-[#FDFBF9]">
         <div className="absolute top-0 right-0 w-full md:w-1/2 h-full bg-[#D2A679]/10 -skew-x-12 translate-x-1/4 z-0 pointer-events-none" />
