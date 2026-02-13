@@ -25,7 +25,7 @@ const Home: React.FC = () => {
       name: "Akshar Ram",
       image: "images/t2.jpeg",
       rating: 5,
-      content: "I've tried many suppliers, but Caramel Luxe stands out with their designer aesthetics and durability."
+      content: "I've tried many suppliers, but Sree Files stands out with their designer aesthetics and durability."
     },
     {
       name: "Eswar",

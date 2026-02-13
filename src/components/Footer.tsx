@@ -12,8 +12,9 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand Info */}
           <div className="space-y-6">
-            <Link to="/" className="flex items-center gap-2">
-              <span className="font-serif text-2xl font-bold tracking-tight">
+            <Link to="/" className="flex items-center gap-2 group">
+              {/* Updated Font to YoungMother */}
+              <span className="font-['YoungMother'] text-4xl font-bold tracking-wide text-foreground group-hover:text-primary transition-colors duration-300">
                 Sree<span className="text-primary">.files</span>
               </span>
             </Link>
@@ -27,7 +28,8 @@ const Footer: React.FC = () => {
                 Premium file manufacturing dedicated to elegance and organization.
               </p>
             </div>
-            {/* <div className="flex gap-4">
+            {/* Social Icons (Commented out as in your previous file)
+            <div className="flex gap-4">
               {[Instagram, Facebook, Twitter].map((Icon, i) => (
                 <a
                   key={i}
