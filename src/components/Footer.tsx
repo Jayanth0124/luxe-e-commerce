@@ -1,8 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram, Facebook, Twitter, Mail, MapPin, Phone, MessageCircle } from 'lucide-react';
+import { MapPin, Phone, MessageCircle, Mail } from 'lucide-react';
 
 const Footer: React.FC = () => {
+  
+  // Helper to scroll top when clicking links
+  const handleLinkClick = () => {
+    window.scrollTo(0, 0);
+  };
+
+  const quickLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Shop', path: '/shop' },
+    { name: 'About', path: '/about' },
+    { name: 'Contact', path: '/contact' },
+  ];
+
+  const policyLinks = [
+    { name: 'Terms & Conditions', path: '/terms-conditions' },
+    { name: 'Privacy Policy', path: '/privacy-policy' },
+    { name: 'Shipping Policy', path: '/shipping-policy' },
+    { name: 'Returns', path: '/returns' },
+  ];
+
   return (
     <footer className="bg-white border-t border-border/40 relative overflow-hidden">
       {/* Gradient Divider */}
@@ -10,10 +30,10 @@ const Footer: React.FC = () => {
       
       <div className="container mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          
           {/* Brand Info */}
           <div className="space-y-6">
-            <Link to="/" className="flex items-center gap-2 group">
-              {/* Updated Font to YoungMother */}
+            <Link to="/" onClick={handleLinkClick} className="flex items-center gap-2 group">
               <span className="font-['YoungMother'] text-4xl font-bold tracking-wide text-foreground group-hover:text-primary transition-colors duration-300">
                 Sree<span className="text-primary">.files</span>
               </span>
@@ -28,48 +48,38 @@ const Footer: React.FC = () => {
                 Premium file manufacturing dedicated to elegance and organization.
               </p>
             </div>
-            {/* Social Icons (Commented out as in your previous file)
-            <div className="flex gap-4">
-              {[Instagram, Facebook, Twitter].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-white hover:border-primary transition-all duration-300"
-                >
-                  <Icon size={18} />
-                </a>
-              ))}
-            </div> */}
           </div>
 
           {/* Quick Links */}
           <div>
             <h4 className="font-serif text-lg font-bold mb-6">Quick Links</h4>
             <ul className="space-y-4">
-              {['Home', 'Shop', 'About', 'Contact'].map((item) => (
-                <li key={item}>
+              {quickLinks.map((link) => (
+                <li key={link.name}>
                   <Link
-                    to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
-                    className="text-muted-foreground text-sm hover:text-primary transition-colors"
+                    to={link.path}
+                    onClick={handleLinkClick}
+                    className="text-muted-foreground text-sm hover:text-primary transition-colors block py-1"
                   >
-                    {item}
+                    {link.name}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Information */}
+          {/* Information (Policies) */}
           <div>
             <h4 className="font-serif text-lg font-bold mb-6">Information</h4>
             <ul className="space-y-4">
-              {['Terms & Conditions', 'Privacy Policy', 'Shipping Policy', 'Returns'].map((item) => (
-                <li key={item}>
+              {policyLinks.map((link) => (
+                <li key={link.name}>
                   <Link
-                    to="#"
-                    className="text-muted-foreground text-sm hover:text-primary transition-colors"
+                    to={link.path}
+                    onClick={handleLinkClick}
+                    className="text-muted-foreground text-sm hover:text-primary transition-colors block py-1"
                   >
-                    {item}
+                    {link.name}
                   </Link>
                 </li>
               ))}
@@ -80,22 +90,22 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="font-serif text-lg font-bold mb-6">Contact Info</h4>
             <ul className="space-y-4">
-              <li className="flex gap-3 text-sm text-muted-foreground">
-                <MapPin size={18} className="text-primary shrink-0" />
+              <li className="flex gap-3 text-sm text-muted-foreground items-start">
+                <MapPin size={18} className="text-primary shrink-0 mt-1" />
                 <span>
                   S No 5/6, Bhavanipuram-Kabela Rd,<br/>
                   RR Nagar, Vijayawada, 520012
                 </span>
               </li>
-              <li className="flex gap-3 text-sm text-muted-foreground">
+              <li className="flex gap-3 text-sm text-muted-foreground items-center">
                 <Phone size={18} className="text-primary shrink-0" />
                 <span>+91 94901 13370</span>
               </li>
-              <li className="flex gap-3 text-sm text-muted-foreground">
+              <li className="flex gap-3 text-sm text-muted-foreground items-center">
                 <MessageCircle size={18} className="text-primary shrink-0" />
                 <span>+91 63091 13898 (Orders)</span>
               </li>
-              <li className="flex gap-3 text-sm text-muted-foreground">
+              <li className="flex gap-3 text-sm text-muted-foreground items-center">
                 <Mail size={18} className="text-primary shrink-0" />
                 <span>hello@sreefiles.com</span>
               </li>
