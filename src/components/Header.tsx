@@ -4,6 +4,7 @@ import { ShoppingBag, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
 import { cn } from "@/lib/utils";
+// import { Logo } from "@/components/Logo"; // Keep your Logo import if you have it
 import {
   Sheet,
   SheetContent,
@@ -14,11 +15,10 @@ import {
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState(false); // Control Sheet state
-  const { cart, setIsCartOpen } = useCart();
+  const [isOpen, setIsOpen] = useState(false);
+  const { cart, setIsCartOpen } = useCart(); // <--- Verify this hook works
   const location = useLocation();
 
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -27,7 +27,6 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setIsOpen(false);
   }, [location]);
@@ -44,16 +43,17 @@ const Header = () => {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
         isScrolled
-          ? "bg-white/80 backdrop-blur-md border-border/50 py-3 shadow-sm"
+          ? "bg-white/80 backdrop-blur-md border-border/50 py-2 shadow-sm"
           : "bg-transparent border-transparent py-5"
       )}
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
           
-          {/* Logo with YoungMother Font */}
+          {/* Logo */}
           <Link to="/" className="z-50 group">
-            <span className="font-['YoungMother'] text-4xl text-foreground tracking-wide group-hover:text-primary transition-colors duration-300">
+             {/* If you have the Logo component, use <Logo /> here */}
+             <span className="font-['YoungMother'] text-4xl text-foreground tracking-wide group-hover:text-primary transition-colors duration-300">
               Sree<span className="text-primary">.files</span>
             </span>
           </Link>
@@ -82,11 +82,16 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-2 md:gap-4">
+            
+            {/* CART BUTTON - Explicitly check this */}
             <Button
               variant="ghost"
               size="icon"
-              className="relative hover:bg-primary/10 transition-colors"
-              onClick={() => setIsCartOpen(true)}
+              className="relative hover:bg-primary/10 transition-colors cursor-pointer" // Added cursor-pointer
+              onClick={() => {
+                  console.log("Cart Clicked!"); // Debugging
+                  setIsCartOpen(true);
+              }}
             >
               <ShoppingBag className="w-5 h-5" />
               {cart.length > 0 && (
@@ -96,7 +101,7 @@ const Header = () => {
               )}
             </Button>
 
-            {/* Mobile Menu Sidebar (Sheet) */}
+            {/* Mobile Menu Sidebar */}
             <div className="md:hidden">
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
@@ -106,14 +111,12 @@ const Header = () => {
                 </SheetTrigger>
                 
                 <SheetContent side="right" className="w-[300px] sm:w-[350px] flex flex-col bg-white p-0">
-                  {/* Sidebar Header */}
                   <SheetHeader className="p-6 border-b border-border/50 bg-[#FDFBF9]">
                     <SheetTitle className="text-left font-['YoungMother'] text-4xl font-bold">
                       Sree<span className="text-primary">.files</span>
                     </SheetTitle>
                   </SheetHeader>
 
-                  {/* Sidebar Links */}
                   <div className="flex-1 overflow-y-auto py-6 px-6 flex flex-col gap-2">
                     {navLinks.map((link) => (
                       <Link
@@ -132,13 +135,12 @@ const Header = () => {
                     ))}
                   </div>
 
-                  {/* Sidebar Footer */}
                   <div className="p-6 border-t border-border/50 bg-[#FDFBF9]">
                     <Button 
                       className="w-full h-12 text-base font-medium shadow-md" 
                       onClick={() => {
                         setIsOpen(false);
-                        setIsCartOpen(true);
+                        setIsCartOpen(true); // Open cart from mobile menu
                       }}
                     >
                       <ShoppingBag className="mr-2 h-5 w-5" />
