@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CartProvider } from "./context/CartContext";
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,6 +10,7 @@ import { AnimatePresence } from "framer-motion";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { CartDrawer } from "./components/CartDrawer";
+import { WelcomeScreen } from "./components/WelcomeScreen";
 
 // Main Pages
 import Home from "./pages/Home";
@@ -24,7 +25,6 @@ import Privacy from "./pages/Privacy";
 import Shipping from "./pages/Shipping";
 import Returns from "./pages/Returns";
 
-// ScrollToTop Component
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   
@@ -35,21 +35,18 @@ const ScrollToTop = () => {
   return null;
 };
 
-// Route Animations Wrapper
 const AnimatedRoutes = () => {
   const location = useLocation();
   
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        {/* Main Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/checkout" element={<Checkout />} />
 
-        {/* Legal & Policy Routes */}
         <Route path="/terms-conditions" element={<Terms />} />
         <Route path="/privacy-policy" element={<Privacy />} />
         <Route path="/shipping-policy" element={<Shipping />} />
@@ -59,35 +56,58 @@ const AnimatedRoutes = () => {
   );
 };
 
-// Main App Component
-const App = () => (
-  <HelmetProvider>
-    <TooltipProvider>
-      <Toaster position="top-center" richColors />
-      <CartProvider>
-        <BrowserRouter>
-          <ScrollToTop />
-          <div className="flex flex-col min-h-screen bg-[#FDFBF9]">
+const App = () => {
+  const [showWelcome, setShowWelcome] = useState(() => {
+    return !sessionStorage.getItem('welcomeShown');
+  });
+
+  const handleEnterSite = () => {
+    sessionStorage.setItem('welcomeShown', 'true');
+    setShowWelcome(false);
+  };
+
+  useEffect(() => {
+    if (showWelcome) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [showWelcome]);
+
+  return (
+    <HelmetProvider>
+      <TooltipProvider>
+        <Toaster position="top-center" richColors />
+        <CartProvider>
+          {/* ADDED FUTURE FLAGS HERE TO CLEAR WARNINGS */}
+          <BrowserRouter 
+            future={{ 
+              v7_startTransition: true, 
+              v7_relativeSplatPath: true 
+            }}
+          >
+            <ScrollToTop />
             
-            {/* Header & Navigation */}
-            <Header />
-            
-            {/* Slide-out Cart */}
-            <CartDrawer />
-            
-            {/* Main Content Area */}
-            <main className="flex-grow">
-              <AnimatedRoutes />
-            </main>
-            
-            {/* Footer */}
-            <Footer />
-            
-          </div>
-        </BrowserRouter>
-      </CartProvider>
-    </TooltipProvider>
-  </HelmetProvider>
-);
+            <AnimatePresence>
+              {showWelcome && <WelcomeScreen onEnter={handleEnterSite} key="welcome" />}
+            </AnimatePresence>
+
+            <div className="flex flex-col min-h-screen bg-[#FDFBF9]">
+              <Header />
+              <CartDrawer />
+              
+              <main className="flex-grow">
+                <AnimatedRoutes />
+              </main>
+              
+              <Footer />
+            </div>
+
+          </BrowserRouter>
+        </CartProvider>
+      </TooltipProvider>
+    </HelmetProvider>
+  );
+};
 
 export default App;
