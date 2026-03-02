@@ -7,28 +7,25 @@ interface WelcomeScreenProps {
 }
 
 export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onEnter }) => {
-  // 2. EDITORIAL CURTAIN ANIMATIONS
+  // SUPER SMOOTH GPU-ACCELERATED ANIMATION
   const containerVars = {
-    hidden: { opacity: 0, y: "10%" },
+    hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      y: "0%",
-      transition: { staggerChildren: 0.15, delayChildren: 0.2, duration: 1, ease: [0.76, 0, 0.24, 1] }
+      transition: { staggerChildren: 0.15, delayChildren: 0.2 }
     },
     exit: {
-      y: "-100%", 
-      borderBottomLeftRadius: "50%", 
-      borderBottomRightRadius: "50%",
-      transition: { duration: 1.2, ease: [0.76, 0, 0.24, 1] }
+      y: "-120vh", // Slides up completely out of view using purely hardware acceleration
+      transition: { duration: 1.2, ease: [0.76, 0, 0.24, 1] } // Buttery Expo curve
     }
   };
 
   const itemVars = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 30 },
     show: { 
       opacity: 1, 
       y: 0, 
-      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } 
+      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } 
     }
   };
 
@@ -38,16 +35,25 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onEnter }) => {
       initial="hidden"
       animate="show"
       exit="exit"
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDFBF9] overflow-auto px-4 sm:px-6 origin-center"
+      // Added willChange for maximum GPU performance
+      style={{ willChange: "transform" }}
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDFBF9] px-4 sm:px-6"
     >
+      {/* THE SECRET SAUCE: The "Trailing Curve" 
+        This div is attached to the very bottom of the screen. 
+        As the main screen slides up, this pulls up behind it, creating the curved curtain effect
+        without ANY layout recalculation lag!
+      */}
+      <div className="absolute top-full left-[-25%] w-[150%] h-[15vh] bg-[#FDFBF9] rounded-b-[100%] z-[-1]" />
+
       {/* Premium subtle background gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#D2A679]/10 via-[#FDFBF9] to-[#FDFBF9] pointer-events-none" />
       
       {/* Subtle Noise Texture for high-end print feel */}
-      <div className="absolute inset-0 opacity-[0.02] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none mix-blend-overlay" />
+      <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none mix-blend-overlay" />
 
       {/* Main Content Wrapper */}
-      <div className="relative w-full max-w-3xl mx-auto flex flex-col items-center justify-center py-12 min-h-full">
+      <div className="relative w-full max-w-3xl mx-auto flex flex-col items-center justify-center py-12 min-h-full z-10">
         
         {/* Logo Section */}
         <motion.div variants={itemVars} className="mb-8 relative">
@@ -97,7 +103,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onEnter }) => {
         <motion.div variants={itemVars} className="w-full px-4 sm:px-0 sm:w-auto">
           <button
             onClick={onEnter}
-            className="group relative w-full sm:w-auto bg-[#1a1a1a] text-white px-10 py-4 sm:py-5 rounded-full font-medium text-base sm:text-lg shadow-xl hover:shadow-2xl hover:bg-black transition-all duration-300 flex items-center justify-center gap-3 active:scale-95 overflow-hidden"
+            className="group relative w-full sm:w-auto bg-[#1a1a1a] text-white px-10 py-4 sm:py-5 rounded-full font-medium text-base sm:text-lg shadow-xl hover:shadow-[0_20px_40px_rgba(210,166,121,0.3)] hover:bg-black transition-all duration-300 flex items-center justify-center gap-3 active:scale-95 overflow-hidden"
           >
             {/* Very subtle shine effect on hover */}
             <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:animate-[shimmer_1.5s_infinite]" />
