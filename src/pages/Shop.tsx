@@ -39,7 +39,7 @@ const Shop: React.FC = () => {
           className="text-center mb-12 space-y-4"
         >
           <h1 className="text-5xl lg:text-7xl font-serif font-bold text-foreground">
-            The Boutique <span className="text-primary italic">Shop</span>
+            My Files <span className="text-primary italic">Shop</span>
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed">
             Browse through our exclusive collections. Each piece is crafted to perfection.
