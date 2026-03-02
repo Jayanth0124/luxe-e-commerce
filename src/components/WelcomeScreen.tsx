@@ -1,23 +1,25 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 interface WelcomeScreenProps {
   onEnter: () => void;
 }
 
 export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onEnter }) => {
-  // Ultra-smooth, professional stagger animations
+  // 2. EDITORIAL CURTAIN ANIMATIONS
   const containerVars = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 0, y: "10%" },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.15, delayChildren: 0.2 }
+      y: "0%",
+      transition: { staggerChildren: 0.15, delayChildren: 0.2, duration: 1, ease: [0.76, 0, 0.24, 1] }
     },
     exit: {
-      opacity: 0,
-      y: "-100%", // Smoothly slides up out of the way
-      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
+      y: "-100%", 
+      borderBottomLeftRadius: "50%", 
+      borderBottomRightRadius: "50%",
+      transition: { duration: 1.2, ease: [0.76, 0, 0.24, 1] }
     }
   };
 
@@ -26,7 +28,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onEnter }) => {
     show: { 
       opacity: 1, 
       y: 0, 
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } // Elegant ease, no bounce/blur
+      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } 
     }
   };
 
@@ -36,34 +38,39 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onEnter }) => {
       initial="hidden"
       animate="show"
       exit="exit"
-      // Fixed: overflow-auto ensures if the screen is tiny, they can scroll instead of it cutting off
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDFBF9] overflow-auto px-4 sm:px-6"
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#FDFBF9] overflow-auto px-4 sm:px-6 origin-center"
     >
-      {/* Premium subtle background gradient instead of ugly moving blurs */}
+      {/* Premium subtle background gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#D2A679]/10 via-[#FDFBF9] to-[#FDFBF9] pointer-events-none" />
       
       {/* Subtle Noise Texture for high-end print feel */}
       <div className="absolute inset-0 opacity-[0.02] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none mix-blend-overlay" />
 
-      {/* Main Content Wrapper - using relative min-h-screen for perfect centering */}
+      {/* Main Content Wrapper */}
       <div className="relative w-full max-w-3xl mx-auto flex flex-col items-center justify-center py-12 min-h-full">
         
         {/* Logo Section */}
-        <motion.div variants={itemVars} className="mb-8">
+        <motion.div variants={itemVars} className="mb-8 relative">
           <img 
             src="/images/namalu.png" 
             alt="Sree Files Logo" 
-            // Adjusted sizing to be sensible and responsive, never overflowing
-            className="w-24 sm:w-28 md:w-36 h-auto object-contain drop-shadow-[0_10px_20px_rgba(210,166,121,0.3)]"
+            className="relative w-24 sm:w-28 md:w-36 h-auto object-contain drop-shadow-[0_10px_20px_rgba(210,166,121,0.3)] z-10"
             onError={(e) => { e.currentTarget.style.display = 'none'; }}
           />
         </motion.div>
 
         {/* Brand Name */}
-        <motion.div variants={itemVars} className="mb-6">
-          <h1 className="text-[3.5rem] sm:text-6xl md:text-[7rem] leading-none font-['YoungMother'] text-gray-900 tracking-wide text-center">
+        <motion.div variants={itemVars} className="relative mb-6">
+          <h1 className="text-[3.5rem] sm:text-6xl md:text-[7rem] leading-none font-['YoungMother'] text-gray-900 tracking-wide text-center flex items-center justify-center">
             Sree<span className="text-[#D2A679]">.files</span>
           </h1>
+          <motion.div 
+            animate={{ rotate: 360, scale: [1, 1.2, 1] }} 
+            transition={{ duration: 6, repeat: Infinity }}
+            className="absolute -top-4 -right-8 md:-right-12 text-[#D2A679] opacity-80"
+          >
+            <Sparkles size={24} className="md:w-8 md:h-8" strokeWidth={1.5} />
+          </motion.div>
         </motion.div>
 
         {/* Elegant Divider */}
