@@ -83,7 +83,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onEnter }) => {
         <motion.div variants={itemVars} className="flex items-center justify-center gap-4 w-full max-w-[250px] mb-8">
           <div className="h-[1px] flex-1 bg-[#D2A679]/40" />
           <span className="text-[10px] sm:text-xs tracking-[0.4em] uppercase font-semibold text-[#D2A679]">
-            Premium
+            SUBHA SUCHAKAM
           </span>
           <div className="h-[1px] flex-1 bg-[#D2A679]/40" />
         </motion.div>
@@ -91,24 +91,25 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onEnter }) => {
         {/* Description */}
         <motion.div variants={itemVars} className="space-y-4 mb-12 text-center px-2">
           <p className="text-xl sm:text-2xl md:text-3xl font-serif text-gray-900">
-            Elevating Workspace Aesthetics
+           Office Files & Stationary
           </p>
           <p className="text-sm sm:text-base text-gray-500 max-w-md mx-auto font-light leading-relaxed">
-            Handcrafted office files and custom luxury stationery. <br className="hidden sm:block"/>
+            Handcrafted office files and custom luxury stationary. <br className="hidden sm:block"/>
             Trusted by professionals since 2010.
           </p>
         </motion.div>
 
-        {/* Call to Action Button */}
+       {/* Call to Action Button */}
         <motion.div variants={itemVars} className="w-full px-4 sm:px-0 sm:w-auto">
           <button
             onClick={onEnter}
+            // CHANGED bg-[#1a1 a1a] TO bg-[#1a1a1a]
             className="group relative w-full sm:w-auto bg-[#1a1a1a] text-white px-10 py-4 sm:py-5 rounded-full font-medium text-base sm:text-lg shadow-xl hover:shadow-[0_20px_40px_rgba(210,166,121,0.3)] hover:bg-black transition-all duration-300 flex items-center justify-center gap-3 active:scale-95 overflow-hidden"
           >
             {/* Very subtle shine effect on hover */}
             <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:animate-[shimmer_1.5s_infinite]" />
             
-            <span className="relative z-10 tracking-wide">Enter Boutique</span>
+            <span className="relative z-10 tracking-wide">Enter Shop</span>
             <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
           </button>
         </motion.div>
