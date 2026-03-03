@@ -26,7 +26,7 @@ const About: React.FC = () => {
           <div className="relative animate-in zoom-in duration-1000">
             <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
               <img
-                src="images/about.jpg"
+                src="images/about.png"
                 alt="Our workshop"
                 className="w-full h-full object-cover"
               />
