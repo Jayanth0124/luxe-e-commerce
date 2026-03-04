@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Product } from '@/lib/products';
 import { useCart } from '@/context/CartContext';
 import { Plus, Minus, ShoppingCart, MessageCircle, Star } from 'lucide-react';
 import { toast } from 'sonner';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
 
 interface ProductModalProps {
   product: Product;
@@ -15,6 +16,22 @@ interface ProductModalProps {
 export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onClose }) => {
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
+  
+  // Safely handle both single image and multiple images array
+  const imagesArray = product.images?.length ? product.images : [(product as any).image].filter(Boolean);
+  
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!api) return;
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
 
   const handleIncrement = () => setQuantity(q => q + 1);
   const handleDecrement = () => setQuantity(q => Math.max(1, q - 1));
@@ -44,149 +61,123 @@ Please confirm this order.
     onClose();
   };
 
-  // --- Sub-components ---
-
-  const QuantitySelector = () => (
-    <div className="flex items-center gap-3 bg-white rounded-full px-3 py-1.5 border border-border/50 shadow-sm">
-      <button onClick={handleDecrement} className="p-1 hover:text-primary transition-colors touch-manipulation">
-        <Minus size={14} />
-      </button>
-      <span className="text-base font-bold w-4 text-center">{quantity}</span>
-      <button onClick={handleIncrement} className="p-1 hover:text-primary transition-colors touch-manipulation">
-        <Plus size={14} />
-      </button>
-    </div>
-  );
-
-  const ActionButtons = () => (
-    <div className="grid grid-cols-2 gap-3 w-full">
-      <Button 
-        size="lg" 
-        variant="outline"
-        className="w-full gap-2 h-11 text-sm md:text-base border-2 hover:bg-secondary/20 hover:text-primary hover:border-primary/20"
-        onClick={handleAddToCart}
-      >
-        <ShoppingCart size={16} />
-        Add <span className="hidden sm:inline ml-1">to Cart</span>
-      </Button>
-      <Button 
-        size="lg" 
-        className="w-full gap-2 h-11 text-sm md:text-base bg-[#25D366] hover:bg-[#20bd5a] text-white border-none shadow-lg shadow-green-500/20" 
-        onClick={handleBuyNow}
-      >
-        <MessageCircle size={16} />
-        Buy <span className="hidden sm:inline ml-1">Now</span>
-      </Button>
-    </div>
-  );
-
-  const ProductDetails = () => (
-    <DialogHeader className="text-left">
-        <DialogTitle className="text-xl md:text-3xl font-serif font-bold text-gray-900 mb-2 leading-tight">
-        {product.title}
-        </DialogTitle>
-        
-        <div className="flex items-center gap-2 mb-3">
-            <div className="flex text-[#D2A679]">
-            {[...Array(5)].map((_, i) => (
-                <Star key={i} size={14} fill="currentColor" strokeWidth={0} />
-            ))}
-            </div>
-            <span className="text-xs md:text-sm text-muted-foreground">(4.9/5 Rating)</span>
-        </div>
-        
-        <DialogDescription className="text-sm md:text-base text-gray-600 leading-relaxed">
-        {product.description}
-        <br className="hidden md:block" /><br className="hidden md:block" />
-        <span className="block mt-2 md:mt-0">
-            This premium digital asset is crafted with attention to detail, ensuring high-quality output.
-        </span>
-        </DialogDescription>
-    </DialogHeader>
-  );
-
-  // --- Main Render ---
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[95vw] sm:w-full max-w-4xl max-h-[90vh] md:h-[600px] p-0 gap-0 border-none rounded-2xl bg-white flex flex-col md:grid md:grid-cols-2 overflow-hidden focus:outline-none">
+      <DialogContent className="w-[95vw] max-w-5xl max-h-[90vh] md:h-[650px] p-0 border-none rounded-3xl bg-white overflow-hidden shadow-2xl flex flex-col md:flex-row focus:outline-none">
         
-        {/* ================= MOBILE LAYOUT ================= */}
-        <div className="md:hidden flex flex-col h-full overflow-hidden">
+        {/* ================= LEFT SIDE: Premium Image Presentation ================= */}
+        {/* FIXED: Increased minimum height on mobile and added perfectly even padding (p-8 md:p-12) */}
+        <div className="w-full md:w-1/2 min-h-[45vh] md:h-full bg-[#FDFBF9] border-b md:border-b-0 md:border-r border-border/50 p-8 md:p-12 flex flex-col items-center justify-center relative shrink-0">
             
-            {/* Scrollable Area: Image + Text */}
-            <div className="flex-1 overflow-y-auto custom-scrollbar">
-                {/* Image: Natural Height (Full Pic) */}
-                <div className="relative w-full">
-                    <img 
-                        src={product.image} 
-                        alt={product.title} 
-                        className="w-full h-auto object-contain"
-                    />
-                    <div className="absolute top-3 left-3">
-                        <span className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-[#D2A679] uppercase tracking-wider shadow-sm">
-                        {product.category}
-                        </span>
-                    </div>
-                </div>
-                
-                {/* Details */}
-                <div className="p-5 pb-4">
-                    <ProductDetails />
-                </div>
-            </div>
-
-            {/* Sticky Footer: Always Visible */}
-            <div className="shrink-0 p-4 border-t border-border/40 bg-white z-20 shadow-[0_-4px_10px_-1px_rgba(0,0,0,0.05)]">
-                 <div className="flex items-center justify-between mb-3">
-                    <div className="flex flex-col">
-                        <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">Total Price</span>
-                        <span className="text-xl font-bold text-gray-900 leading-none">₹{product.price * quantity}</span>
-                    </div>
-                    <QuantitySelector />
-                 </div>
-                 <ActionButtons />
-            </div>
-        </div>
-
-        {/* ================= DESKTOP LAYOUT (FIXED HEIGHT) ================= */}
-        {/* Left Col: Image (Full height, contain to show all) */}
-        <div className="hidden md:block relative h-full bg-secondary/10">
-             <img 
-              src={product.image} 
-              alt={product.title} 
-              className="w-full h-full object-contain p-4 absolute inset-0" 
-            />
-            <div className="absolute top-4 left-4">
-              <span className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-[#D2A679] uppercase tracking-wider shadow-sm">
+            {/* Category Badge */}
+            <div className="absolute top-5 left-5 md:top-6 md:left-6 z-20">
+                <span className="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[10px] md:text-xs font-bold text-[#D2A679] uppercase tracking-widest shadow-sm border border-[#D2A679]/20">
                 {product.category}
-              </span>
+                </span>
             </div>
+
+            {/* Padded Professional Image Box */}
+            {/* FIXED: Added inner padding (p-6) so the image NEVER touches the bottom or sides of the box */}
+            <div className="w-full max-w-[280px] md:max-w-[360px] aspect-[4/5] bg-white rounded-3xl shadow-sm border border-border/40 p-6 md:p-8 flex items-center justify-center relative group mx-auto">
+                {imagesArray.length > 1 ? (
+                    <Carousel setApi={setApi} className="w-full h-full flex items-center justify-center">
+                        <CarouselContent className="h-full w-full">
+                            {imagesArray.map((img: string, idx: number) => (
+                                <CarouselItem key={idx} className="h-full w-full flex items-center justify-center">
+                                    <img 
+                                      src={img} 
+                                      alt={`${product.title} view ${idx + 1}`} 
+                                      className="max-w-full max-h-full object-contain drop-shadow-md mix-blend-multiply" 
+                                    />
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                        <CarouselPrevious className="left-0 md:-left-4 bg-white/90 hover:bg-white border border-gray-100 shadow-md opacity-0 group-hover:opacity-100 transition-opacity scale-90 md:scale-100" />
+                        <CarouselNext className="right-0 md:-right-4 bg-white/90 hover:bg-white border border-gray-100 shadow-md opacity-0 group-hover:opacity-100 transition-opacity scale-90 md:scale-100" />
+                    </Carousel>
+                ) : (
+                    <img 
+                      src={imagesArray[0]} 
+                      alt={product.title} 
+                      className="max-w-full max-h-full object-contain drop-shadow-md mix-blend-multiply" 
+                    />
+                )}
+            </div>
+
+            {/* Carousel Dots / Counter */}
+            {/* FIXED: Gave this proper margin-top so it isn't squeezed against the image box */}
+            {count > 1 && (
+                <div className="mt-8 flex items-center gap-2">
+                    {imagesArray.map((_: any, idx: number) => (
+                        <div key={idx} className={`h-1.5 rounded-full transition-all duration-300 ${current === idx + 1 ? 'w-6 bg-[#D2A679]' : 'w-2 bg-gray-300'}`} />
+                    ))}
+                </div>
+            )}
         </div>
 
-        {/* Right Col: Details + Footer */}
-        <div className="hidden md:flex flex-col h-full bg-white p-8">
-             <div className="flex-1 overflow-y-auto custom-scrollbar pr-2">
-                 <ProductDetails />
+        {/* ================= RIGHT SIDE: Content & Sticky Footer ================= */}
+        <div className="w-full md:w-1/2 flex flex-col h-[calc(90vh-45vh)] md:h-full bg-white relative">
+             
+             {/* 1. Scrollable Details Area */}
+             <div className="flex-1 overflow-y-auto p-6 md:p-10 pr-4 md:pr-10 custom-scrollbar">
+                 <DialogHeader className="text-left pr-6"> 
+                    <DialogTitle className="text-2xl md:text-3xl font-serif font-bold text-gray-900 mb-3 leading-tight">
+                        {product.title}
+                    </DialogTitle>
+                    
+                    <div className="flex items-center gap-2 mb-6">
+                        <div className="flex text-[#D2A679]">
+                        {[...Array(5)].map((_, i) => (
+                            <Star key={i} size={16} fill="currentColor" strokeWidth={0} />
+                        ))}
+                        </div>
+                        <span className="text-sm text-muted-foreground font-medium">(4.9/5 Reviews)</span>
+                    </div>
+                    
+                    <DialogDescription className="text-base text-gray-600 leading-relaxed space-y-4">
+                        <p>{product.description}</p>
+                        <p>Handcrafted locally in Vijayawada. This premium file is constructed with heavy-duty materials designed to protect your most important documents while maintaining a luxurious aesthetic.</p>
+                    </DialogDescription>
+                 </DialogHeader>
              </div>
              
-             <div className="mt-auto space-y-6 pt-4 border-t border-border/40">
-                <div className="flex items-center justify-between p-4 bg-secondary/10 rounded-xl">
+             {/* 2. Sticky Action Footer */}
+             <div className="shrink-0 p-6 md:p-8 bg-gray-50 border-t border-border/40 shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.05)]">
+                
+                <div className="flex items-center justify-between mb-5">
                     <div>
-                        <p className="text-sm text-muted-foreground mb-1">Total Price</p>
-                        <span className="text-3xl font-bold text-gray-900">₹{product.price * quantity}</span>
+                        <p className="text-xs text-muted-foreground uppercase tracking-widest font-bold mb-1">Total Price</p>
+                        <span className="text-3xl font-bold text-gray-900 leading-none">₹{product.price * quantity}</span>
                     </div>
-                    {/* Reuse Quantity Selector */}
-                    <div className="flex items-center gap-4 bg-white rounded-full px-4 py-2 border border-border/50 shadow-sm">
-                        <button onClick={handleDecrement} className="p-1 hover:text-primary transition-colors"><Minus size={16} /></button>
-                        <span className="text-lg font-bold w-6 text-center">{quantity}</span>
-                        <button onClick={handleIncrement} className="p-1 hover:text-primary transition-colors"><Plus size={16} /></button>
+                    
+                    <div className="flex items-center gap-4 bg-white rounded-xl px-4 py-2 border border-border/50 shadow-sm">
+                        <button onClick={handleDecrement} className="p-1 text-gray-400 hover:text-[#D2A679] transition-colors"><Minus size={16} /></button>
+                        <span className="text-lg font-bold w-6 text-center text-gray-900">{quantity}</span>
+                        <button onClick={handleIncrement} className="p-1 text-gray-400 hover:text-[#D2A679] transition-colors"><Plus size={16} /></button>
                     </div>
                 </div>
-                <ActionButtons />
-             </div>
-        </div>
 
+                <div className="grid grid-cols-2 gap-3 w-full">
+                    <Button 
+                        size="lg" 
+                        variant="outline"
+                        className="w-full gap-2 h-14 text-sm md:text-base border-2 hover:bg-[#D2A679]/5 hover:text-[#D2A679] hover:border-[#D2A679]/50 transition-all rounded-xl font-bold"
+                        onClick={handleAddToCart}
+                    >
+                        <ShoppingCart size={18} /> Add to Cart
+                    </Button>
+                    <Button 
+                        size="lg" 
+                        className="w-full gap-2 h-14 text-sm md:text-base bg-[#25D366] hover:bg-[#20bd5a] text-white border-none shadow-md hover:shadow-lg transition-all rounded-xl font-bold" 
+                        onClick={handleBuyNow}
+                    >
+                        <MessageCircle size={18} /> Buy Now
+                    </Button>
+                </div>
+                
+             </div>
+
+        </div>
       </DialogContent>
     </Dialog>
   );

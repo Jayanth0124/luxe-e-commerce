@@ -114,7 +114,7 @@ ${orderItems}
                                 className="flex gap-4 items-start"
                             >
                                 <div className="w-16 h-16 rounded-lg bg-white/5 overflow-hidden border border-white/10 shrink-0">
-                                    <img src={item.image} alt={item.title} className="w-full h-full object-cover opacity-80" />
+                                    <img src={item.images[0]} alt={item.title} className="w-full h-full object-cover opacity-80" />
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <h4 className="font-medium text-white/90 truncate">{item.title}</h4>

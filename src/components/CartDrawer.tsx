@@ -43,7 +43,7 @@ export const CartDrawer = () => {
                   <div key={item.id} className="flex gap-4">
                     <div className="h-20 w-20 rounded-lg overflow-hidden border bg-secondary/10 shrink-0">
                       <img 
-                        src={item.image} 
+                        src={item.images[0]} // <--- Change this to read from the array
                         alt={item.title} 
                         className="h-full w-full object-cover"
                       />

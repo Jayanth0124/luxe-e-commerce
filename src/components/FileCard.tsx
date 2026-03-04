@@ -65,7 +65,7 @@ Please confirm this order.
         {/* Image Area */}
         <div className="aspect-[4/5] overflow-hidden bg-gray-100 relative">
           <img 
-            src={product.image} 
+            src={product.images[0]} // <--- Change this to read from the array
             alt={product.title} 
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
           />
