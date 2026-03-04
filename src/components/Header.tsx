@@ -51,9 +51,17 @@ const Header = () => {
         <div className="flex items-center justify-between">
           
           {/* Logo */}
-          <Link to="/" className="z-50 group">
-             {/* If you have the Logo component, use <Logo /> here */}
-             <span className="font-['YoungMother'] text-4xl text-foreground tracking-wide group-hover:text-primary transition-colors duration-300">
+          <Link to="/" className="z-50 group flex items-center gap-3">
+            {/* The Image Logo */}
+            <img 
+              src="/logo.png" 
+              alt="Sree Files Logo" 
+              className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              onError={(e) => { e.currentTarget.style.display = 'none'; }}
+            />
+            
+            {/* The Text Logo */}
+            <span className="font-['YoungMother'] text-4xl text-foreground tracking-wide group-hover:text-primary transition-colors duration-300 pt-1">
               Sree<span className="text-primary">.files</span>
             </span>
           </Link>

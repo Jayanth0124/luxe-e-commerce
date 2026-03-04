@@ -33,11 +33,20 @@ const Footer: React.FC = () => {
           
           {/* Brand Info */}
           <div className="space-y-6">
-            <Link to="/" onClick={handleLinkClick} className="flex items-center gap-2 group">
-              <span className="font-['YoungMother'] text-4xl font-bold tracking-wide text-foreground group-hover:text-primary transition-colors duration-300">
-                Sree<span className="text-primary">.files</span>
-              </span>
-            </Link>
+            <Link to="/" onClick={handleLinkClick} className="flex items-center gap-3 group">
+            {/* The Image Logo */}
+            <img 
+              src="/logo.png" 
+              alt="Sree Files Logo" 
+              className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              onError={(e) => { e.currentTarget.style.display = 'none'; }}
+            />
+            
+            {/* The Text Logo */}
+            <span className="font-['YoungMother'] text-4xl font-bold tracking-wide text-foreground group-hover:text-primary transition-colors duration-300 pt-1">
+              Sree<span className="text-primary">.files</span>
+            </span>
+          </Link>
             <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
               <p>
                 <strong>Company:</strong> Sree Manikanta<br/>
