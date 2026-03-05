@@ -340,14 +340,14 @@ export const products: Product[] = [
     description: ' Sree ManiKanta designer file with Green Nature Design'
   },
   
-  {
-    id: 'prm-1',
-    title: 'Customized Brown Box File',
-    price: 72,
-    images: ['images/premium/brown.png', 'images/premium/brown1.png'],
-    category: 'Customized',
-    description: 'Fully Customized Files based on Customer Needs'
-  },
+  // {
+  //   id: 'prm-1',
+  //   title: 'Customized Brown Box File',
+  //   price: 72,
+  //   images: ['images/premium/brown.png', 'images/premium/brown1.png'],
+  //   category: 'Customized',
+  //   description: 'Fully Customized Files based on Customer Needs'
+  // },
   {
     id: 'prm-2',
     title: 'Super Spl Customized Files',
@@ -364,14 +364,14 @@ export const products: Product[] = [
     category: 'Customized',
     description: 'Fully Customized Files based on Customer Needs'
   },
-  {
-    id: 'prm-4',
-    title: 'Grey Leafed File',
-    price: 75,
-    images: ['images/premium/grey.png'],
-    category: 'Customized',
-    description: 'Fully Customized Files based on Customer Needs.'
-  },
+  // {
+  //   id: 'prm-4',
+  //   title: 'Grey Leafed File',
+  //   price: 75,
+  //   images: ['images/premium/grey.png'],
+  //   category: 'Customized',
+  //   description: 'Fully Customized Files based on Customer Needs.'
+  // },
    {
     id: 'prm-5',
     title: 'Customized Office Files',
@@ -380,14 +380,14 @@ export const products: Product[] = [
     category: 'Customized',
     description: 'Premium indexed deluxe file with Lord Ganesha and temple design. Galaxy themed with A to Z tabs.'
   },
-  {
-    id: 'prm-6',
-    title: 'Brown Jute Pattern',
-    price: 60,
-    images: ['images/premium/purebro.png'],
-    category: 'Customized',
-    description: 'Fully Customized Files based on Customer Needs'
-  },
+  // {
+  //   id: 'prm-6',
+  //   title: 'Brown Jute Pattern',
+  //   price: 60,
+  //   images: ['images/premium/purebro.png'],
+  //   category: 'Customized',
+  //   description: 'Fully Customized Files based on Customer Needs'
+  // },
   {
     id: 'prm-7',
     title: 'Office Mate- Orange and Blue',
