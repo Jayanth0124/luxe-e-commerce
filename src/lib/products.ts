@@ -27,7 +27,7 @@ export const products: Product[] = [
     id: 'rel-2',
     title: 'Lakshmi Saraswati Ganesha File',
     price: 85,
-    images: ['images/religious/lakshmi.png', 'images/religious/lakshmi.png'],
+    images: ['images/religious/lakshmi.png'],
     category: 'Religious',
     description: 'Auspicious office file with Lakshmi, Saraswati and Ganesha. Brings prosperity.'
   },
