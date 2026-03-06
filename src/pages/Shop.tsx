@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CategoryFilter } from '@/components/CategoryFilter';
 import { FileCard } from '@/components/FileCard';
 import { products } from '@/lib/products';
-import { Search, SlidersHorizontal, X } from 'lucide-react';
+import { Search, SlidersHorizontal, X, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import SEO from '@/components/SEO'; // <--- Import SEO
+import SEO from '@/components/SEO';
 
 const Shop: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -21,13 +21,69 @@ const Shop: React.FC = () => {
   }, [activeCategory, searchQuery]);
 
   return (
-    <div className="pt-32 pb-24 min-h-screen bg-[#FDFBF9]">
+    <div className="pt-24 md:pt-32 pb-24 min-h-screen bg-[#FDFBF9] overflow-hidden">
       {/* SEO Configuration */}
       <SEO 
         title="Shop Premium Files" 
         description="Browse our exclusive collection of office files, cobra files, and custom folders. Bulk orders available via WhatsApp."
         url="https://sreefiles.netlify.app/shop"
       />
+
+      {/* --- VIP PREMIUM SEAMLESS SCROLLING ANNOUNCEMENT BAR --- */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes marquee {
+          0% { transform: translateX(0%); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+          animation: marquee 25s linear infinite;
+        }
+        /* Animated Gold Foil Text Effect */
+        .gold-gradient-text {
+          background: linear-gradient(to right, #D2A679, #FFF3D8, #D2A679, #D2A679);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-size: 200% auto;
+          animation: shine 4s linear infinite;
+        }
+        @keyframes shine {
+          to { background-position: 200% center; }
+        }
+      `}} />
+      
+      <div className="w-full bg-gradient-to-r from-gray-950 via-gray-900 to-gray-950 py-4 mb-12 overflow-hidden relative border-y border-[#D2A679]/50 shadow-[0_0_25px_rgba(210,166,121,0.15)] z-10">
+        
+        {/* Subtle glowing orb in the background of the bar */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#D2A679]/15 via-transparent to-transparent pointer-events-none mix-blend-screen" />
+        
+        <div className="flex w-[250%] md:w-[150%] animate-marquee hover:[animation-play-state:paused] transition-all cursor-default relative z-10">
+          {[...Array(2)].map((_, i) => (
+            <div key={i} className="flex-1 flex justify-around items-center whitespace-nowrap text-[11px] sm:text-xs md:text-sm font-bold tracking-[0.2em] md:tracking-[0.3em] uppercase">
+              
+              <span className="flex items-center gap-3 gold-gradient-text drop-shadow-[0_2px_10px_rgba(210,166,121,0.4)] text-base md:text-lg">
+                <Sparkles size={18} className="text-[#FFF3D8]" /> 
+                Wholesale Available 
+                <Sparkles size={18} className="text-[#FFF3D8]" />
+              </span>
+              
+              <span className="text-[#D2A679]/50 mx-4 md:mx-8">❖</span>
+              
+              <span className="text-white drop-shadow-sm">Huge Discounts on Bulk Orders</span>
+              
+              <span className="text-[#D2A679]/50 mx-4 md:mx-8">❖</span>
+              
+              <span className="text-white drop-shadow-sm">Custom Logo Printing</span>
+              
+              <span className="text-[#D2A679]/50 mx-4 md:mx-8">❖</span>
+              
+              <span className="text-white drop-shadow-sm">WhatsApp for Quote</span>
+              
+              <span className="text-[#D2A679]/50 mx-4 md:mx-8">❖</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* ------------------------------------------------------- */}
 
       <div className="container mx-auto px-6">
         
@@ -46,7 +102,7 @@ const Shop: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Search & Filter Bar - NOW STATIC (Scrolls with page) */}
+        {/* Search & Filter Bar */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -62,7 +118,7 @@ const Shop: React.FC = () => {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" size={18} />
             <input
               type="text"
-              placeholder="Search assets..."
+              placeholder="Search files..."
               className="w-full pl-12 pr-10 py-3 rounded-full bg-secondary/30 border-transparent focus:bg-white focus:border-primary/30 focus:ring-4 focus:ring-primary/10 transition-all outline-none"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
