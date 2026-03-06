@@ -7,6 +7,16 @@ import { Search, SlidersHorizontal, X, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SEO from '@/components/SEO';
 
+// --- DYNAMIC CATEGORY STORYTELLING ---
+const categoryStories: Record<string, string> = {
+  'All': "Browse through our complete collection. Each piece is crafted to absolute perfection.",
+  'Religious': "Auspicious designs crafted for new business ledgers, property documents, and traditional beginnings.",
+  'Designer': "Elegant, artistic patterns designed to bring a touch of luxury and beauty to your professional workspace.",
+  'Standard': "Durable, classic designs built for everyday reliability and seamless organization.",
+  'Box File': "Heavy-duty, high-capacity storage engineered specifically for corporate archiving and long-term security.",
+  'Customized': "Premium personalized files, custom-tailored to represent your institution's unique brand identity."
+};
+
 const Shop: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -67,17 +77,11 @@ const Shop: React.FC = () => {
               </span>
               
               <span className="text-[#D2A679]/50 mx-4 md:mx-8">❖</span>
-              
               <span className="text-white drop-shadow-sm">Huge Discounts on Bulk Orders</span>
-              
               <span className="text-[#D2A679]/50 mx-4 md:mx-8">❖</span>
-              
               <span className="text-white drop-shadow-sm">Custom Logo Printing</span>
-              
               <span className="text-[#D2A679]/50 mx-4 md:mx-8">❖</span>
-              
               <span className="text-white drop-shadow-sm">WhatsApp for Quote</span>
-              
               <span className="text-[#D2A679]/50 mx-4 md:mx-8">❖</span>
             </div>
           ))}
@@ -87,19 +91,32 @@ const Shop: React.FC = () => {
 
       <div className="container mx-auto px-6">
         
-        {/* Animated Header */}
+        {/* Animated Header with Dynamic Storytelling */}
         <motion.div 
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center mb-12 space-y-4"
+          className="text-center mb-12"
         >
-          <h1 className="text-5xl lg:text-7xl font-serif font-bold text-foreground">
+          <h1 className="text-5xl lg:text-7xl font-serif font-bold text-foreground mb-6">
             My Files <span className="text-primary italic">Shop</span>
           </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed">
-            Browse through our exclusive collections. Each piece is crafted to perfection.
-          </p>
+          
+          {/* Dynamic Storytelling Text container (fixed height prevents page jumping) */}
+          <div className="h-16 flex items-start justify-center">
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={activeCategory} // Triggers animation when category changes
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed font-medium text-[#D2A679]"
+              >
+                {categoryStories[activeCategory]}
+              </motion.p>
+            </AnimatePresence>
+          </div>
         </motion.div>
 
         {/* Search & Filter Bar */}
@@ -107,7 +124,7 @@ const Shop: React.FC = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="relative mb-16 p-4 rounded-2xl bg-white border border-border/40 shadow-sm flex flex-col lg:flex-row gap-6 items-center justify-between"
+          className="relative mb-16 p-4 rounded-3xl bg-white border border-border/40 shadow-sm flex flex-col lg:flex-row gap-6 items-center justify-between"
         >
           <CategoryFilter
             activeCategory={activeCategory}
@@ -164,6 +181,7 @@ const Shop: React.FC = () => {
                   <SlidersHorizontal className="text-muted-foreground w-10 h-10" />
                 </div>
                 <h3 className="text-2xl font-serif font-bold mb-2">No matches found</h3>
+                <p className="text-gray-500 mb-6">Try adjusting your search or category filter.</p>
                 <Button 
                   variant="outline" 
                   onClick={() => { setActiveCategory('All'); setSearchQuery(''); }}
