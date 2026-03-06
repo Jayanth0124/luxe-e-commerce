@@ -356,14 +356,14 @@ export const products: Product[] = [
     category: 'Customized',
     description: 'Fully Customized Files based on Customer Needs'
   },
-  {
-    id: 'prm-3',
-    title: 'Blue Customized Files',
-    price: 30,
-    images: ['images/premium/blue.png','images/premium/b1.png'],
-    category: 'Customized',
-    description: 'Fully Customized Files based on Customer Needs'
-  },
+  // {
+  //   id: 'prm-3',
+  //   title: 'Blue Customized Files',
+  //   price: 30,
+  //   images: ['images/premium/blue.png','images/premium/b1.png'],
+  //   category: 'Customized',
+  //   description: 'Fully Customized Files based on Customer Needs'
+  // },
   // {
   //   id: 'prm-4',
   //   title: 'Grey Leafed File',
