@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Minus, ShoppingCart, MessageCircle, Eye } from 'lucide-react';
+import { Plus, Minus, ShoppingCart, MessageCircle, Eye, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/CartContext';
 import { Product } from '@/lib/products';
@@ -15,6 +15,9 @@ export const FileCard: React.FC<FileCardProps> = ({ product }) => {
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Safely grab the first image from the new array (with fallback for old cached data)
+  const displayImage = product.images?.length ? product.images[0] : (product as any).image;
 
   const handleIncrement = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -63,11 +66,21 @@ Please confirm this order.
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 z-10 transition-colors pointer-events-none" />
 
         {/* Image Area */}
-        <div className="aspect-[4/5] overflow-hidden bg-gray-100 relative">
+        <div className="aspect-[4/5] overflow-hidden bg-[#FDFBF9] relative group-hover:bg-white transition-colors duration-500">
+          
+          {/* --- BADGE CODE --- */}
+          {product.badge && (
+            <div className="absolute top-3 right-3 z-30 bg-gradient-to-r from-[#D2A679] to-[#b88c5d] text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-[0_0_15px_rgba(210,166,121,0.6)] flex items-center gap-1">
+              <Sparkles size={12} className="text-[#FFF3D8]"/>
+              {product.badge}
+            </div>
+          )}
+          {/* ------------------ */}
+
           <img 
-            src={product.images[0]} // <--- Change this to read from the array
+            src={displayImage} 
             alt={product.title} 
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 mix-blend-multiply" 
           />
           <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-[#D2A679] uppercase tracking-wider shadow-sm z-20">
             {product.category}

@@ -19,6 +19,10 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Checkout from "./pages/Checkout";
 
+// --- NEW PAGES ---
+import FAQ from "./pages/FAQ";
+import BulkOrders from "./pages/BulkOrders";
+
 // Legal/Policy Pages
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
@@ -43,6 +47,11 @@ const AnimatedRoutes = () => {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
+        
+        {/* --- NEW ROUTES --- */}
+        <Route path="/bulk-orders" element={<BulkOrders />} />
+        <Route path="/faq" element={<FAQ />} />
+        
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/checkout" element={<Checkout />} />

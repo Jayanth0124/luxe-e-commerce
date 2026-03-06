@@ -6,7 +6,19 @@ import { motion } from 'framer-motion';
 import { FileCard } from '@/components/FileCard';
 import { TestimonialCard } from '@/components/TestimonialCard';
 import { products } from '@/lib/products';
-import SEO from '@/components/SEO'; // <--- Import SEO
+import SEO from '@/components/SEO';
+
+// --- TRADITIONAL CSS BORDER COMPONENT ---
+const ThoranamBorder = () => (
+  <div 
+    className="w-full h-8 opacity-40 mix-blend-multiply my-4" 
+    style={{ 
+      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='30'%3E%3Cpath d='M0 0 Q20 25 40 0 Q60 25 80 0' fill='none' stroke='%23D2A679' stroke-width='2'/%3E%3Ccircle cx='20' cy='12' r='2' fill='%23D2A679'/%3E%3Ccircle cx='60' cy='12' r='2' fill='%23D2A679'/%3E%3Cpath d='M40 0 L40 15' fill='none' stroke='%23D2A679' stroke-width='1.5'/%3E%3C/svg%3E")`, 
+      backgroundRepeat: 'repeat-x',
+      backgroundPosition: 'top center'
+    }} 
+  />
+);
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -53,7 +65,7 @@ const Home: React.FC = () => {
         url="https://sreefiles.netlify.app/"
       />
 
-      {/* Hero Section - Increased top padding to pt-32 for better spacing */}
+      {/* --- HERO SECTION --- */}
       <section className="relative min-h-[90vh] flex items-center pt-32 pb-20 bg-[#FDFBF9]">
         <div className="absolute top-0 right-0 w-full md:w-1/2 h-full bg-[#D2A679]/10 -skew-x-12 translate-x-1/4 z-0 pointer-events-none" />
         
@@ -82,12 +94,15 @@ const Home: React.FC = () => {
             </motion.div>
           </motion.div>
           
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.2 }} className="relative">
-            <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
-              <img src="images/hero.png" alt="Luxury workspace" className="w-full h-full object-cover" />
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.2 }} className="relative flex justify-center items-center">
+            <div className="relative w-full max-w-[280px] sm:max-w-xs md:max-w-sm lg:max-w-md aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl mx-auto border border-border/50">
+              <img 
+                src="images/hero.png" 
+                alt="Luxury workspace" 
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" 
+              />
             </div>
-            {/* Floating Rating Badge */}
-            <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 1 }} className="absolute -bottom-8 -left-8 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl max-w-xs border border-white/20 hidden md:block">
+            <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 1 }} className="absolute -bottom-8 lg:-left-4 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl max-w-xs border border-white/20 hidden md:block z-20">
               <div className="flex gap-4 items-center">
                 <div className="w-12 h-12 bg-[#D2A679] rounded-full flex items-center justify-center text-white">
                   <Star fill="currentColor" />
@@ -102,7 +117,86 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Benefits Section */}
+      <ThoranamBorder />
+
+      {/* --- TRADITIONAL "SHUBHARAMBHAM" SECTION ---
+      <section className="py-24 relative overflow-hidden bg-[#1A1A1A] text-white">
+        <motion.div 
+          animate={{ rotate: 360 }}
+          transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
+          className="absolute -right-64 -top-64 w-[800px] h-[800px] opacity-[0.03] pointer-events-none"
+        >
+          <svg viewBox="0 0 100 100" fill="none" stroke="#D2A679" strokeWidth="0.5">
+            <circle cx="50" cy="50" r="48" />
+            <circle cx="50" cy="50" r="40" />
+            {[...Array(12)].map((_, i) => (
+              <path key={i} d="M50 10 Q60 30 50 50 Q40 30 50 10" transform={`rotate(${i * 30} 50 50)`} />
+            ))}
+            {[...Array(24)].map((_, i) => (
+              <path key={i} d="M50 50 L50 2" transform={`rotate(${i * 15} 50 50)`} />
+            ))}
+          </svg>
+        </motion.div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            
+            <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="w-12 h-[1px] bg-[#D2A679]"></span>
+                <span className="text-[#D2A679] uppercase tracking-[0.3em] text-xs font-bold">శుభ సూచకం</span>
+              </div>
+              
+              <h2 className="text-4xl md:text-6xl font-serif font-bold mb-6 leading-tight">
+                Auspicious <br/>
+                <span className="text-[#D2A679] italic">Beginnings</span>
+              </h2>
+              
+              <p className="text-gray-400 text-lg leading-relaxed mb-8">
+                In Indian tradition, every new venture starts with a blessing. Whether it's your new company registration, your first property deed, or your Diwali account ledgers, secure your most important milestones in our premium Religious & Designer collections.
+              </p>
+              
+              <ul className="space-y-4 mb-10">
+                {[
+                  "Property & Real Estate Documents",
+                  "New Business Registrations",
+                  "Financial Year & Ledger Openings"
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-gray-300">
+                    <div className="w-1.5 h-1.5 rotate-45 bg-[#D2A679]" /> 
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <Button size="lg" onClick={() => navigate('/shop')} className="bg-transparent border border-[#D2A679] text-[#D2A679] hover:bg-[#D2A679] hover:text-[#1A1A1A] h-14 px-8 rounded-full transition-all duration-300">
+                Explore Religious Collection
+              </Button>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative">
+               <div className="absolute inset-0 bg-gradient-to-tr from-[#D2A679]/20 to-transparent rounded-full blur-3xl -z-10" />
+               <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-4 mt-12">
+                     <img src="images/religious/balaji.png" alt="Tirupati Balaji File" className="w-full rounded-2xl bg-white/5 p-2 border border-white/10 shadow-2xl hover:-translate-y-2 transition-transform duration-500" />
+                     <img src="images/designer/mandala.png" alt="Mandala File" className="w-full rounded-2xl bg-white/5 p-2 border border-white/10 shadow-2xl hover:-translate-y-2 transition-transform duration-500" />
+                  </div>
+                  <div className="space-y-4">
+                     <img src="images/religious/lakshmi.png" alt="Lakshmi File" className="w-full rounded-2xl bg-white/5 p-2 border border-white/10 shadow-2xl hover:-translate-y-2 transition-transform duration-500" />
+                     <div className="aspect-[4/5] rounded-2xl bg-gradient-to-br from-[#D2A679]/20 to-transparent border border-[#D2A679]/30 flex items-center justify-center p-6 text-center shadow-2xl">
+                        <p className="font-serif text-[#D2A679] text-xl">Crafted with Heritage</p>
+                     </div>
+                  </div>
+               </div>
+            </motion.div>
+
+          </div>
+        </div>
+      </section> */}
+
+      {/* <ThoranamBorder /> */}
+
+      {/* --- BENEFITS SECTION --- */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -123,7 +217,9 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Featured Products - Now using FileCard with Add to Cart */}
+      <ThoranamBorder />
+
+      {/* --- FEATURED PRODUCTS SECTION --- */}
       <section className="py-24 bg-[#D2A679]/5">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
@@ -134,21 +230,22 @@ const Home: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredProducts.map((product) => (
               <motion.div key={product.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                {/* USING THE NEW FILECARD COMPONENT HERE */}
                 <FileCard product={product} />
               </motion.div>
             ))}
           </div>
 
           <div className="mt-16 text-center">
-            <Button size="lg" variant="outline" onClick={() => navigate('/shop')} className="px-8 rounded-full h-12 border-2">
+            <Button size="lg" variant="outline" onClick={() => navigate('/shop')} className="px-8 rounded-full h-12 border-2 bg-white">
               View All Collections
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section - Explicitly Fixed */}
+      <ThoranamBorder />
+
+      {/* --- TESTIMONIALS SECTION --- */}
       <section className="py-24 bg-white overflow-hidden">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">

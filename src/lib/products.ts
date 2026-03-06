@@ -6,6 +6,7 @@ export interface Product {
   price: number;
   category: string;
   images: string[]; // <-- Changed from image to images array
+  badge?: string;
 }
 
 // 2. Your Product Data
@@ -21,7 +22,8 @@ export const products: Product[] = [
   
     ],
     category: 'Religious',
-    description: 'Premium office file with beautiful Tirupati Balaji design. Perfect for office and personal use.'
+    description: 'Premium office file with beautiful Tirupati Balaji design. Perfect for office and personal use.',
+    badge: 'Best Seller'
   },
   {
     id: 'rel-2',
@@ -67,7 +69,8 @@ export const products: Product[] = [
     price: 85,
     images: ['images/religious/lakshmibox.png'],
     category: 'Religious',
-    description: 'Auspicious office file with Lakshmi Devi. Brings prosperity.'
+    description: 'Auspicious office file with Lakshmi Devi. Brings prosperity.',
+    badge: 'Best Seller'
   },
 
   {
@@ -93,6 +96,7 @@ export const products: Product[] = [
     price: 28,
     images: ['images/designer/floral.png', 'images/designer/f1.png'],
     category: 'Designer',
+    badge: 'New Arrival',
     description: 'Elegant floral design office file with colorful flowers. Adds beauty to your workspace.'
   },
   {
@@ -133,6 +137,7 @@ export const products: Product[] = [
     price: 28,
     images: ['images/designer/orange.png','images/designer/o1.png'],
     category: 'Designer',
+    badge: 'Best Seller',
     description: 'Durable Orange plastic coated office file. Long-lasting and water-resistant.'
   },
   
@@ -150,6 +155,7 @@ export const products: Product[] = [
     price: 30,
     images: ['images/designer/y2.png','images/designer/y3.png'],
     category: 'Designer',
+    badge: 'Best Seller',
     description: 'Super Special yellow coated office file.'
   },
   {
@@ -158,6 +164,7 @@ export const products: Product[] = [
     price: 28,
     images: ['images/designer/pb1.png','images/designer/pb2.png'],
     category: 'Designer',
+    badge: 'New Arrival',
     description: 'Special Deluxe Files in Pink and Blue'
   },
   // {
@@ -214,6 +221,8 @@ export const products: Product[] = [
     price: 65,
     images: ['images/standard/flap.png', 'images/standard/flap1.png','images/standard/flap2.png','images/standard/flap3.png','images/standard/flap4.png'],
     category: 'U/O',
+    badge: 'PREMIUM',
+    
     description: 'Durable pink plastic coated office file. Long-lasting, water-resistant with elegant look.'
   },
   
@@ -239,6 +248,7 @@ export const products: Product[] = [
     price: 82,
     images: ['images/box/neon.png', 'images/box/neon1.png','images/box/neon2.png'],
     category: 'Box File',
+    badge: 'New Arrival',
     description: ' Sree ManiKanta designer file with vibrant purple neon floral design. Modern style.'
   },
   {
@@ -247,6 +257,7 @@ export const products: Product[] = [
     price: 102,
     images: ['images/box/green_floral.png', 'images/box/gf1.png','images/box/gf2.png'],
     category: 'Box File',
+    badge: 'Best Seller',
     description: ' Sree ManiKanta designer file with elegant green abstract wave pattern. Modern and artistic.'
   },
   // {
@@ -289,6 +300,7 @@ export const products: Product[] = [
     price: 71,
     images: ['images/box/pink.png', 'images/box/pink1.png'],
     category: 'Box File',
+    badge: 'New Arrival',
     description: ' Sree ManiKanta designer file with Pink Aesthetic Design'
   },
   {
@@ -321,6 +333,7 @@ export const products: Product[] = [
     price: 75,
     images: ['images/box/bp1.png', 'images/box/bp2.png'],
     category: 'Box File',
+    badge: 'New Arrival',
     description: ' Sree ManiKanta designer file with Baby Pink Aesthetic Design'
   },
   {
@@ -394,7 +407,9 @@ export const products: Product[] = [
     price: 30,
     images: ['images/premium/ob1.png','images/premium/ob2.png','images/premium/ob3.png'],
     category: 'Customized',
+    badge: 'Best Seller',
     description: 'Fully Customized Files based on Customer Needs'
+    
   },
 ];
 

@@ -4,7 +4,6 @@ import { ShoppingBag, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
 import { cn } from "@/lib/utils";
-// import { Logo } from "@/components/Logo"; // Keep your Logo import if you have it
 import {
   Sheet,
   SheetContent,
@@ -16,7 +15,7 @@ import {
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const { cart, setIsCartOpen } = useCart(); // <--- Verify this hook works
+  const { cart, setIsCartOpen } = useCart();
   const location = useLocation();
 
   useEffect(() => {
@@ -31,9 +30,11 @@ const Header = () => {
     setIsOpen(false);
   }, [location]);
 
+  // --- ADDED BULK ORDERS LINK HERE ---
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Shop", path: "/shop" },
+    { name: "Bulk Orders", path: "/bulk-orders" },
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
   ];
@@ -52,15 +53,12 @@ const Header = () => {
           
           {/* Logo */}
           <Link to="/" className="z-50 group flex items-center gap-3">
-            {/* The Image Logo */}
             <img 
               src="/logo.png" 
               alt="Sree Files Logo" 
               className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               onError={(e) => { e.currentTarget.style.display = 'none'; }}
             />
-            
-            {/* The Text Logo */}
             <span className="font-['YoungMother'] text-4xl text-foreground tracking-wide group-hover:text-primary transition-colors duration-300 pt-1">
               Sree<span className="text-primary">.files</span>
             </span>
@@ -91,23 +89,24 @@ const Header = () => {
           {/* Actions */}
           <div className="flex items-center gap-2 md:gap-4">
             
-            {/* CART BUTTON - Explicitly check this */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="relative hover:bg-primary/10 transition-colors cursor-pointer" // Added cursor-pointer
-              onClick={() => {
-                  console.log("Cart Clicked!"); // Debugging
-                  setIsCartOpen(true);
-              }}
-            >
-              <ShoppingBag className="w-5 h-5" />
-              {cart.length > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white animate-in zoom-in">
-                  {cart.length}
-                </span>
-              )}
-            </Button>
+            {/* CART BUTTON */}
+            <div className="relative">
+                <Button
+                variant="ghost"
+                size="icon"
+                className="relative hover:bg-primary/10 transition-colors cursor-pointer" 
+                onClick={() => {
+                    setIsCartOpen(true);
+                }}
+                >
+                <ShoppingBag className="w-5 h-5" />
+                {cart.length > 0 && (
+                    <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white animate-in zoom-in">
+                    {cart.length}
+                    </span>
+                )}
+                </Button>
+            </div>
 
             {/* Mobile Menu Sidebar */}
             <div className="md:hidden">
@@ -148,7 +147,7 @@ const Header = () => {
                       className="w-full h-12 text-base font-medium shadow-md" 
                       onClick={() => {
                         setIsOpen(false);
-                        setIsCartOpen(true); // Open cart from mobile menu
+                        setIsCartOpen(true);
                       }}
                     >
                       <ShoppingBag className="mr-2 h-5 w-5" />

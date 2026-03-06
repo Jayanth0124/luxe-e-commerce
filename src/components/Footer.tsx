@@ -4,7 +4,6 @@ import { MapPin, Phone, MessageCircle, Mail } from 'lucide-react';
 
 const Footer: React.FC = () => {
   
-  // Helper to scroll top when clicking links
   const handleLinkClick = () => {
     window.scrollTo(0, 0);
   };
@@ -12,6 +11,8 @@ const Footer: React.FC = () => {
   const quickLinks = [
     { name: 'Home', path: '/' },
     { name: 'Shop', path: '/shop' },
+    { name: 'Bulk Orders', path: '/bulk-orders' },
+    { name: 'FAQ', path: '/faq' },
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];
@@ -25,7 +26,6 @@ const Footer: React.FC = () => {
 
   return (
     <footer className="bg-white border-t border-border/40 relative overflow-hidden">
-      {/* Gradient Divider */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-40" />
       
       <div className="container mx-auto px-6 py-16">
@@ -33,21 +33,27 @@ const Footer: React.FC = () => {
           
           {/* Brand Info */}
           <div className="space-y-6">
-            <Link to="/" onClick={handleLinkClick} className="flex items-center gap-3 group">
-            {/* The Image Logo */}
-            <img 
-              src="/logo.png" 
-              alt="Sree Files Logo" 
-              className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-              onError={(e) => { e.currentTarget.style.display = 'none'; }}
-            />
-            
-            {/* The Text Logo */}
-            <span className="font-['YoungMother'] text-4xl font-bold tracking-wide text-foreground group-hover:text-primary transition-colors duration-300 pt-1">
-              Sree<span className="text-primary">.files</span>
-            </span>
-          </Link>
-            <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+            <Link to="/" onClick={handleLinkClick} className="flex flex-col items-start gap-1 group w-fit">
+                <div className="flex items-center gap-3">
+                    <img 
+                    src="/logo.png" 
+                    alt="Sree Files Logo" 
+                    className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                    />
+                    <span className="font-['YoungMother'] text-4xl font-bold tracking-wide text-foreground group-hover:text-primary transition-colors duration-300 pt-1">
+                    Sree<span className="text-primary">.files</span>
+                    </span>
+                </div>
+                {/* --- TELUGU TRUST TAGLINE --- */}
+                <div className="ml-14 flex items-center gap-2 mt-1 opacity-90">
+                    <span className="w-8 h-[1px] bg-[#D2A679]"></span>
+                    <span className="text-[#D2A679] text-xs font-bold tracking-[0.2em]">శుభ సూచకం</span>
+                </div>
+                {/* --------------------------- */}
+            </Link>
+
+            <div className="space-y-4 text-sm text-muted-foreground leading-relaxed mt-4">
               <p>
                 <strong>Company:</strong> Sree Manikanta<br/>
                 <strong>Founder:</strong> P. Naveen<br/>
